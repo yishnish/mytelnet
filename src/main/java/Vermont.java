@@ -41,4 +41,14 @@ class Vermont {
         return screen[position.getRow()][position.getCol()];
     }
 
+    public String getScreenText() {
+        StringBuilder sb = new StringBuilder();
+        for (String[] row : screen) {
+            for (String character : row) {
+                sb.append(character == null ? " " : character);
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 }

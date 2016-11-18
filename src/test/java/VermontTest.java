@@ -3,6 +3,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -70,5 +71,17 @@ public class VermontTest {
         assertThat(vermont.characterAt(yPosition), equalTo("Y"));
     }
 
+    @Test
+    public void testGettingScreenContentsAsString() {
+        vermont.moveCursor(new CursorPosition(10, 10));
+        vermont.write("c");
+        vermont.moveCursor(new CursorPosition(10, 11));
+        vermont.write("a");
+        vermont.moveCursor(new CursorPosition(10, 12));
+        vermont.write("t");
+        vermont.moveCursor(new CursorPosition(10, 14));
+        vermont.write("p");
+        assertThat(vermont.getScreenText(), containsString("cat p"));
+    }
 
 }
