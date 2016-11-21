@@ -1,7 +1,12 @@
+package terminal;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import terminal.CursorPosition;
+import terminal.ScreenAccessOutOfBoundsException;
+import terminal.Vermont;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;

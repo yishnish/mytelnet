@@ -1,4 +1,6 @@
-class Vermont {
+package terminal;
+
+public class Vermont {
 
     private int height = 24;
     private int width = 80;

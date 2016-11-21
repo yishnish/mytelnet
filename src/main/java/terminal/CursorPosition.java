@@ -1,3 +1,5 @@
+package terminal;
+
 public class CursorPosition {
     private int row;
     private int col;
