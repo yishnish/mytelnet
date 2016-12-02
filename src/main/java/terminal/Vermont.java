@@ -1,6 +1,6 @@
 package terminal;
 
-public class Vermont {
+public class Vermont implements VTerminal {
 
     private int height = 24;
     private int width = 80;
@@ -18,17 +18,6 @@ public class Vermont {
     public void moveCursor(CursorPosition position) {
         validateCursorPosition(position);
         this.cursorPosition = position;
-    }
-
-    private void validateCursorPosition(CursorPosition position) {
-        int row = position.getRow();
-        if(row >= this.getHeight() || row < 0) {
-            throw new ScreenAccessOutOfBoundsException();
-        }
-        int col = position.getCol();
-        if(col >= this.getWidth() || col < 0) {
-            throw new ScreenAccessOutOfBoundsException();
-        }
     }
 
     public CursorPosition getCursorPosition() {
@@ -53,4 +42,16 @@ public class Vermont {
         }
         return sb.toString();
     }
+
+    private void validateCursorPosition(CursorPosition position) {
+        int row = position.getRow();
+        if(row >= this.getHeight() || row < 0) {
+            throw new ScreenAccessOutOfBoundsException();
+        }
+        int col = position.getCol();
+        if(col >= this.getWidth() || col < 0) {
+            throw new ScreenAccessOutOfBoundsException();
+        }
+    }
 }
+

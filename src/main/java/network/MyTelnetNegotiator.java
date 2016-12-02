@@ -2,28 +2,33 @@ package network;
 
 import org.apache.commons.net.telnet.TelnetClient;
 import terminal.CursorPosition;
-import terminal.Vermont;
+import terminal.VTerminal;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 
 public class MyTelnetNegotiator {
 
-    private Vermont vermont;
+    private VTerminal vermont;
     private TelnetClient telnetClient;
+    private InputStream inputStream;
+    private OutputStream outputStream;
 
-    public MyTelnetNegotiator(Vermont vermont, TelnetClient telnetClient) {
-        this.vermont = vermont;
+    public MyTelnetNegotiator(VTerminal terminal, TelnetClient telnetClient) {
+        this.vermont = terminal;
         this.telnetClient = telnetClient;
+    }
+
+    public void connect(String host) throws IOException {
+        telnetClient.connect(host);
+        start();
     }
 
     public void start() {
         Thread negotiatingThread = new Thread(new Runnable() {
             public void run() {
                 vermont.moveCursor(new CursorPosition(0, 0));
-                InputStream inputStream = telnetClient.getInputStream();
+                inputStream = telnetClient.getInputStream();
+                outputStream = telnetClient.getOutputStream();
                 Reader reader = new InputStreamReader(inputStream);
                 int character;
                 try {
@@ -43,4 +48,23 @@ public class MyTelnetNegotiator {
         });
         negotiatingThread.start();
     }
+//
+//    public void send(String text) throws IOException {
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+//        Integer c;
+//        while (reader.ready()) {
+//            c = reader.read();
+//            if(c != null) {
+//                System.out.println("reader = " + (char) Character.getNumericValue(c));
+//            }
+//        }
+//
+//        outputStream.write(text.getBytes());
+//        outputStream.write("\n".getBytes());
+//        outputStream.flush();
+//    }
+//
+//    public String getScreenText() {
+//        return vermont.getScreenText();
+//    }
 }
