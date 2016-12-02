@@ -32,11 +32,11 @@ public class MyTelnetNegotiatorTest {
         Vermont vermont = new Vermont();
         MyTelnetNegotiator myTelnetNegotiator = new MyTelnetNegotiator(vermont, telnetClient);
         myTelnetNegotiator.connect(LOCALHOST);
-        Thread.sleep(50);
+        Thread.sleep(100);
         myTelnetNegotiator.send(USERNAME);
-        Thread.sleep(50);
+        Thread.sleep(100);
         myTelnetNegotiator.send(PASSWORD);
-        Thread.sleep(50);
+        Thread.sleep(100);
         assertThat(myTelnetNegotiator.getScreenText(), containsString("Last login:"));
     }
 }
