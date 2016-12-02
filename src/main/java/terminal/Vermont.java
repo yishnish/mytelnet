@@ -46,11 +46,11 @@ public class Vermont implements VTerminal {
     private void validateCursorPosition(CursorPosition position) {
         int row = position.getRow();
         if(row >= this.getHeight() || row < 0) {
-            throw new ScreenAccessOutOfBoundsException();
+            throw new ScreenAccessOutOfBoundsException("Row out of bounds: row was " + row + " and height is " + this.getHeight());
         }
         int col = position.getCol();
         if(col >= this.getWidth() || col < 0) {
-            throw new ScreenAccessOutOfBoundsException();
+            throw new ScreenAccessOutOfBoundsException("Column out of bounds: column was " + col + " and width is " + this.getWidth());
         }
     }
 }

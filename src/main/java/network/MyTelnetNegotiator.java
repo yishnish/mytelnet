@@ -34,6 +34,8 @@ public class MyTelnetNegotiator {
                 try {
                     while ((character = reader.read()) > -1) {
                         vermont.write(String.valueOf((char) character));
+                        //this fails as soon as more than 80 characters are written since vt100 codes aren't used yet
+                        //to reposition the cursor
                         vermont.moveCursor(new CursorPosition(0, vermont.getCursorPosition().getCol() + 1));
                     }
                 } catch (IOException e) {
@@ -48,21 +50,12 @@ public class MyTelnetNegotiator {
         });
         negotiatingThread.start();
     }
-//
-//    public void send(String text) throws IOException {
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-//        Integer c;
-//        while (reader.ready()) {
-//            c = reader.read();
-//            if(c != null) {
-//                System.out.println("reader = " + (char) Character.getNumericValue(c));
-//            }
-//        }
-//
-//        outputStream.write(text.getBytes());
-//        outputStream.write("\n".getBytes());
-//        outputStream.flush();
-//    }
+
+    public void send(String text) throws IOException {
+        outputStream.write(text.getBytes());
+        outputStream.write("\n".getBytes());
+        outputStream.flush();
+    }
 
     public String getScreenText() {
         return vermont.getScreenText();
