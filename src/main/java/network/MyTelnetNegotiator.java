@@ -63,8 +63,8 @@ public class MyTelnetNegotiator {
 //        outputStream.write("\n".getBytes());
 //        outputStream.flush();
 //    }
-//
-//    public String getScreenText() {
-//        return vermont.getScreenText();
-//    }
+
+    public String getScreenText() {
+        return vermont.getScreenText();
+    }
 }
