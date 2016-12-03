@@ -36,10 +36,9 @@ public class MyTelnetNegotiator {
                 int character;
                 try {
                     while ((character = reader.read()) > -1) {
-                        commandCreator.write((char)character);
-                        terminal.accept(commandCreator.createCommand());
+                        terminal.accept(commandCreator.write((char)character));
                         //this fails as soon as more than 80 characters are written since vt100 codes aren't used yet
-                        //to reposition the cursor
+                        //to reposition the cursor yet
                         terminal.moveCursor(new CursorPosition(0, terminal.getCursorPosition().getCol() + 1));
                     }
                 } catch (IOException e) {

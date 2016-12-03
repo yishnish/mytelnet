@@ -2,7 +2,9 @@ package terminal;
 
 import command.TerminalCommand;
 
-public class Vermont implements VTerminal {
+import java.util.function.Consumer;
+
+public class Vermont implements VTerminal, Consumer<TerminalCommand> {
 
     private int height = 24;
     private int width = 80;
@@ -17,6 +19,14 @@ public class Vermont implements VTerminal {
         return width;
     }
 
+    public void accept(TerminalCommand command) {
+        command.call(this);
+    }
+
+    public void write(String character) {
+        screen[cursorPosition.getRow()][cursorPosition.getCol()] = character;
+    }
+
     public void moveCursor(CursorPosition position) {
         validateCursorPosition(position);
         this.cursorPosition = position;
@@ -24,10 +34,6 @@ public class Vermont implements VTerminal {
 
     public CursorPosition getCursorPosition() {
         return cursorPosition;
-    }
-
-    public void write(String character) {
-        screen[cursorPosition.getRow()][cursorPosition.getCol()] = character;
     }
 
     public String characterAt(CursorPosition position) {
@@ -43,10 +49,6 @@ public class Vermont implements VTerminal {
             sb.append("\n");
         }
         return sb.toString();
-    }
-
-    public void accept(TerminalCommand command) {
-        command.call(this);
     }
 
     private void validateCursorPosition(CursorPosition position) {

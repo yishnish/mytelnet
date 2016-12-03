@@ -69,11 +69,9 @@ public class VermontTest {
         CursorPosition xPosition = new CursorPosition(3, 3);
         CursorPosition yPosition = new CursorPosition(6, 2);
         vermont.moveCursor(xPosition);
-        commandCreator.write('X');
-        vermont.accept(commandCreator.createCommand());
+        vermont.accept(commandCreator.write('X'));
         vermont.moveCursor(yPosition);
-        commandCreator.write('Y');
-        vermont.accept(commandCreator.createCommand());
+        vermont.accept(commandCreator.write('Y'));
         assertThat(vermont.characterAt(xPosition), equalTo("X"));
         assertThat(vermont.characterAt(yPosition), equalTo("Y"));
     }
@@ -90,14 +88,11 @@ public class VermontTest {
     @Test
     public void testGettingScreenContentsAsString() {
         vermont.moveCursor(new CursorPosition(10, 10));
-        commandCreator.write('c');
-        vermont.accept(commandCreator.createCommand());
+        vermont.accept(commandCreator.write('c'));
         vermont.moveCursor(new CursorPosition(10, 11));
-        commandCreator.write(' ');
-        vermont.accept(commandCreator.createCommand());
+        vermont.accept(commandCreator.write(' '));
         vermont.moveCursor(new CursorPosition(10, 12));
-        commandCreator.write('t');
-        vermont.accept(commandCreator.createCommand());
+        vermont.accept(commandCreator.write('t'));
         assertThat(vermont.getScreenText(), containsString("c t"));
     }
 }

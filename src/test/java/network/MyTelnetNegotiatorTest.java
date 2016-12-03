@@ -27,7 +27,6 @@ public class MyTelnetNegotiatorTest {
         waitToMakeAssertion();
 
         String screenText = vermont.getScreenText();
-        System.out.println("screenText = " + screenText);
         assertThat(screenText, containsString("hi"));
     }
 

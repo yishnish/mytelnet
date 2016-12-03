@@ -1,37 +1,30 @@
 package command;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-import terminal.VTerminal;
+import terminal.CursorPosition;
+import terminal.Vermont;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TerminalCommandCreatorTest {
 
-    private VTerminal vTerminal = mock(VTerminal.class);
+    private TerminalCommandCreator commandCreator;
 
-    @Test
-    public void testCreatingAnAddCharacterCommand() throws Exception {
-        TerminalCommandCreator commandCreator = new TerminalCommandCreator();
-        commandCreator.write('a');
-        TerminalCommand command = commandCreator.createCommand();
-        command.call(vTerminal);
-        verify(vTerminal, times(1)).write("a");
+    @Before
+    public void setUp() throws Exception {
+        commandCreator = new TerminalCommandCreator();
     }
 
     @Test
-    public void testCreatingMultipleAddCharacterCommands() throws Exception {
-        TerminalCommandCreator commandCreator = new TerminalCommandCreator();
-        commandCreator.write('a');
-        commandCreator.createCommand().call(vTerminal);
-        verify(vTerminal, times(1)).write("a");
-        verify(vTerminal, times(0)).write("b");
-        Mockito.reset(vTerminal);
-        commandCreator.write('b');
-        commandCreator.createCommand().call(vTerminal);
-        verify(vTerminal, times(0)).write("a");
-        verify(vTerminal, times(1)).write("b");
+    public void testWritingANonEscapeCharacterCreatesAnAddCharacterCommand() throws Exception {
+        TerminalCommand commandA = commandCreator.write('A');
+        TerminalCommand commandB = commandCreator.write('B');
+        Vermont terminal = new Vermont();
+        terminal.accept(commandA);
+        assertThat(terminal.characterAt(new CursorPosition(0, 0)), equalTo("A"));
+        terminal.accept(commandB);
+        assertThat(terminal.characterAt(new CursorPosition(0, 0)), equalTo("B"));
     }
 }
