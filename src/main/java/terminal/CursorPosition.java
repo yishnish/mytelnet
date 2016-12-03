@@ -20,6 +20,14 @@ public class CursorPosition {
         return col == that.col;
     }
 
+    @Override
+    public String toString() {
+        return "CursorPosition{" +
+                "row=" + row +
+                ", col=" + col +
+                '}';
+    }
+
     public int getRow() {
         return row;
     }

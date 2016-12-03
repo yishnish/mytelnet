@@ -1,12 +1,11 @@
 package terminal;
 
+import command.CharacterWriteCommand;
+import command.TerminalCommandCreator;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import terminal.CursorPosition;
-import terminal.ScreenAccessOutOfBoundsException;
-import terminal.Vermont;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -17,6 +16,7 @@ public class VermontTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
+    TerminalCommandCreator commandCreator = new TerminalCommandCreator();
     Vermont vermont;
 
     @Before
@@ -69,24 +69,35 @@ public class VermontTest {
         CursorPosition xPosition = new CursorPosition(3, 3);
         CursorPosition yPosition = new CursorPosition(6, 2);
         vermont.moveCursor(xPosition);
-        vermont.write("X");
+        commandCreator.write('X');
+        vermont.accept(commandCreator.createCommand());
         vermont.moveCursor(yPosition);
-        vermont.write("Y");
+        commandCreator.write('Y');
+        vermont.accept(commandCreator.createCommand());
         assertThat(vermont.characterAt(xPosition), equalTo("X"));
         assertThat(vermont.characterAt(yPosition), equalTo("Y"));
     }
 
     @Test
-    public void testGettingScreenContentsAsString() {
-        vermont.moveCursor(new CursorPosition(10, 10));
-        vermont.write("c");
-        vermont.moveCursor(new CursorPosition(10, 11));
-        vermont.write("a");
-        vermont.moveCursor(new CursorPosition(10, 12));
-        vermont.write("t");
-        vermont.moveCursor(new CursorPosition(10, 14));
-        vermont.write("p");
-        assertThat(vermont.getScreenText(), containsString("cat p"));
+    public void testExecutingATerminalCommand() throws Exception {
+        CharacterWriteCommand command = new CharacterWriteCommand('z');
+        CursorPosition home = new CursorPosition(0, 0);
+        vermont.moveCursor(home);
+        vermont.accept(command);
+        assertThat(vermont.characterAt(home), equalTo(String.valueOf('z')));
     }
 
+    @Test
+    public void testGettingScreenContentsAsString() {
+        vermont.moveCursor(new CursorPosition(10, 10));
+        commandCreator.write('c');
+        vermont.accept(commandCreator.createCommand());
+        vermont.moveCursor(new CursorPosition(10, 11));
+        commandCreator.write(' ');
+        vermont.accept(commandCreator.createCommand());
+        vermont.moveCursor(new CursorPosition(10, 12));
+        commandCreator.write('t');
+        vermont.accept(commandCreator.createCommand());
+        assertThat(vermont.getScreenText(), containsString("c t"));
+    }
 }

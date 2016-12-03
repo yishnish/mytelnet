@@ -1,10 +1,12 @@
 package terminal;
 
+import command.TerminalCommand;
+
 public class Vermont implements VTerminal {
 
     private int height = 24;
     private int width = 80;
-    private CursorPosition cursorPosition;
+    private CursorPosition cursorPosition = new CursorPosition(0, 0);
     private String[][] screen = new String[height][width];
 
     public int getHeight() {
@@ -41,6 +43,10 @@ public class Vermont implements VTerminal {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public void accept(TerminalCommand command) {
+        command.call(this);
     }
 
     private void validateCursorPosition(CursorPosition position) {

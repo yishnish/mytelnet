@@ -1,5 +1,6 @@
 package network;
 
+import command.TerminalCommandCreator;
 import org.apache.commons.net.telnet.TelnetClient;
 import terminal.CursorPosition;
 import terminal.VTerminal;
@@ -8,14 +9,16 @@ import java.io.*;
 
 public class MyTelnetNegotiator {
 
-    private VTerminal vermont;
+    private VTerminal terminal;
     private TelnetClient telnetClient;
     private InputStream inputStream;
     private OutputStream outputStream;
+    private TerminalCommandCreator commandCreator;
 
     public MyTelnetNegotiator(VTerminal terminal, TelnetClient telnetClient) {
-        this.vermont = terminal;
+        this.terminal = terminal;
         this.telnetClient = telnetClient;
+        commandCreator = new TerminalCommandCreator();
     }
 
     public void connect(String host) throws IOException {
@@ -26,17 +29,18 @@ public class MyTelnetNegotiator {
     public void start() {
         Thread negotiatingThread = new Thread(new Runnable() {
             public void run() {
-                vermont.moveCursor(new CursorPosition(0, 0));
+                terminal.moveCursor(new CursorPosition(0, 0));
                 inputStream = telnetClient.getInputStream();
                 outputStream = telnetClient.getOutputStream();
                 Reader reader = new InputStreamReader(inputStream);
                 int character;
                 try {
                     while ((character = reader.read()) > -1) {
-                        vermont.write(String.valueOf((char) character));
+                        commandCreator.write((char)character);
+                        terminal.accept(commandCreator.createCommand());
                         //this fails as soon as more than 80 characters are written since vt100 codes aren't used yet
                         //to reposition the cursor
-                        vermont.moveCursor(new CursorPosition(0, vermont.getCursorPosition().getCol() + 1));
+                        terminal.moveCursor(new CursorPosition(0, terminal.getCursorPosition().getCol() + 1));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -58,6 +62,6 @@ public class MyTelnetNegotiator {
     }
 
     public String getScreenText() {
-        return vermont.getScreenText();
+        return terminal.getScreenText();
     }
 }

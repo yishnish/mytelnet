@@ -1,5 +1,7 @@
 package terminal;
 
+import command.TerminalCommand;
+
 public interface VTerminal {
     int getHeight();
 
@@ -14,4 +16,6 @@ public interface VTerminal {
     String characterAt(CursorPosition position);
 
     String getScreenText();
+
+    void accept(TerminalCommand command);
 }
