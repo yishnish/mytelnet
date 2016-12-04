@@ -20,7 +20,8 @@ public class CommandParser {
             builder.append(character);
         }
         String[] params = builder.toString().split(";");
-        if(params.length == 0 || params[0].isEmpty() || params[1].isEmpty()) {
+
+        if(params.length == 0 || isNullOrEmpty(params[0]) || isNullOrEmpty(params[1])) {
             return CursorPosition.HOME;
         }
         return new CursorPosition(Integer.parseInt(params[0]), Integer.parseInt(params[1]));
@@ -32,5 +33,9 @@ public class CommandParser {
                 return character == '[';
             }
         });
+    }
+
+    private static boolean isNullOrEmpty(String string) {
+        return string == null || string.isEmpty();
     }
 }
