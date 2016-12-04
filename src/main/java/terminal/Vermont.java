@@ -25,11 +25,18 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
 
     public void write(String character) {
         screen[cursorPosition.getRow()][cursorPosition.getCol()] = character;
+        advanceCursor();
     }
 
     public void moveCursor(CursorPosition position) {
         validateCursorPosition(position);
         this.cursorPosition = position;
+    }
+
+    public void advanceCursor() {
+        if(cursorPosition.getCol() < (getWidth() - 1)) {
+            cursorPosition = new CursorPosition(cursorPosition.getRow(), cursorPosition.getCol() + 1);
+        }
     }
 
     public CursorPosition getCursorPosition() {

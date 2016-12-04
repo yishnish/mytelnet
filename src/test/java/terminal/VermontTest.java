@@ -16,7 +16,6 @@ public class VermontTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    TerminalCommandCreator commandCreator = new TerminalCommandCreator();
     Vermont vermont;
 
     @Before
@@ -62,6 +61,21 @@ public class VermontTest {
     public void testMovingCursorPositionOutsideSizeIsAnError_tooRightMate() {
         thrown.expect(ScreenAccessOutOfBoundsException.class);
         vermont.moveCursor(new CursorPosition(-1, vermont.getWidth()));
+    }
+
+    @Test
+    public void testAdvancingCursorWithinBounds() throws Exception {
+        vermont.moveCursor(CursorPosition.HOME);
+        vermont.advanceCursor();
+        assertThat(vermont.getCursorPosition(), equalTo(new CursorPosition(0, 1)));
+    }
+
+    @Test
+    public void testTryingToAdvanceCursorPositionOutOfBoundsDoesNotMoveCursor() throws Exception {
+        CursorPosition edgeOfScreen = new CursorPosition(0, vermont.getWidth() - 1);
+        vermont.moveCursor(edgeOfScreen);
+        vermont.advanceCursor();
+        assertThat(vermont.getCursorPosition(), equalTo(edgeOfScreen));
     }
 
     @Test

@@ -20,4 +20,6 @@ public interface VTerminal extends Consumer<TerminalCommand>{
     String getScreenText();
 
     void accept(TerminalCommand command);
+
+    void advanceCursor();
 }

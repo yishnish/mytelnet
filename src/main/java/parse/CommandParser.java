@@ -20,7 +20,7 @@ public class CommandParser {
             builder.append(character);
         }
         String[] params = builder.toString().split(";");
-        if(params[0].isEmpty() || params[1].isEmpty()) {
+        if(params.length == 0 || params[0].isEmpty() || params[1].isEmpty()) {
             return CursorPosition.HOME;
         }
         return new CursorPosition(Integer.parseInt(params[0]), Integer.parseInt(params[1]));
