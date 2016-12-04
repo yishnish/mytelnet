@@ -1,0 +1,47 @@
+package parse;
+
+import command.TerminalCommand;
+import org.junit.Before;
+import org.junit.Test;
+import terminal.CursorPosition;
+import terminal.VTerminal;
+import terminal.Vermont;
+
+import java.util.ArrayList;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+public class CommandParserTest {
+    CommandParser commandParser;
+    VTerminal terminal;
+    @Before
+    public void setUp() throws Exception {
+        commandParser = new CommandParser();
+        terminal = new Vermont();
+    }
+
+    @Test
+    public void testParseMoveCommandNoCoords() throws Exception {
+        terminal.moveCursor(CursorPosition.HOME);
+        TerminalCommand commandH = commandParser.parseCommand(listOf('[', ';', 'H'));
+        terminal.accept(commandH);
+        assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
+    }
+
+    @Test
+    public void testParseMoveCommandWithCoords() throws Exception {
+        terminal.moveCursor(CursorPosition.HOME);
+        TerminalCommand commandH = commandParser.parseCommand(listOf('[', '1', ';', '2'));
+        terminal.accept(commandH);
+        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(1, 2)));
+    }
+
+    private ArrayList<Character> listOf(char... chars) {
+        ArrayList<Character> characters = new ArrayList<Character>();
+        for (char c : chars) {
+            characters.add(c);
+        }
+        return characters;
+    }
+}

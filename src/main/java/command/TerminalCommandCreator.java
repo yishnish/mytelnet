@@ -1,5 +1,6 @@
 package command;
 
+import parse.CommandParser;
 import terminal.Ascii;
 
 import java.util.ArrayList;
@@ -14,8 +15,14 @@ public class TerminalCommandCreator {
         if(c == Ascii.ESC) {
             buildingCommand = true;
         } else if(buildingCommand) {
-            command.add(c);
-            //add cursor move command if finished (H or f)
+            if(c == 'H' || c == 'f') {
+                buildingCommand = false;
+                Optional<TerminalCommand> terminalCommand = Optional.of(CommandParser.parseCommand(command));
+                command.clear();
+                return terminalCommand;
+            }else{
+                command.add(c);
+            }
         } else {
             return Optional.of(new CharacterWriteCommand(c));
         }
