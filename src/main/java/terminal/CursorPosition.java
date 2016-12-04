@@ -1,6 +1,9 @@
 package terminal;
 
 public class CursorPosition {
+
+    public static CursorPosition HOME = new CursorPosition(0, 0);
+
     private int row;
     private int col;
 

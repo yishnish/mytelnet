@@ -2,7 +2,9 @@ package terminal;
 
 import command.TerminalCommand;
 
-public interface VTerminal {
+import java.util.function.Consumer;
+
+public interface VTerminal extends Consumer<TerminalCommand>{
     int getHeight();
 
     int getWidth();
