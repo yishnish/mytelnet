@@ -110,16 +110,23 @@ public class VermontTest {
     }
 
     @Test
-    public void testCarriageReturnNewLine(){
+    public void testCarriageReturn() throws Exception {
         vermont.moveCursor(new CursorPosition(1, 2));
-        vermont.cRnL();
-        assertThat(vermont.getCursorPosition(), equalTo(new CursorPosition(2, 0)));
+        vermont.carriageReturn();
+        assertThat(vermont.getCursorPosition(), equalTo(new CursorPosition(1, 0)));
     }
 
     @Test
-    public void testCrNlDoesntMoveCursorBelowLastLine_ForConvenienceReallyThisShouldMaybeScroll(){
+    public void testNewLine() throws Exception {
+        vermont.moveCursor(new CursorPosition(1, 2));
+        vermont.newLine();
+        assertThat(vermont.getCursorPosition(), equalTo(new CursorPosition(2, 2)));
+    }
+
+    @Test
+    public void testCarriageReturnDoesntMoveCursorBelowLastLine_ForConvenienceReallyThisShouldMaybeScroll(){
         vermont.moveCursor(new CursorPosition(vermont.getHeight() - 1, 1));
-        vermont.cRnL();
+        vermont.carriageReturn();
         assertThat(vermont.getCursorPosition(), equalTo(new CursorPosition(vermont.getHeight() - 1, 0)));
     }
 }

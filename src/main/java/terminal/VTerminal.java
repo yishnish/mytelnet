@@ -23,5 +23,7 @@ public interface VTerminal extends Consumer<TerminalCommand>{
 
     void advanceCursor();
 
-    void cRnL();
+    void newLine();
+
+    void carriageReturn();
 }

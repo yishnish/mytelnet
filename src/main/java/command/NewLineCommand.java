@@ -2,8 +2,8 @@ package command;
 
 import terminal.VTerminal;
 
-public class CrNlCommand implements TerminalCommand{
+public class NewLineCommand implements TerminalCommand {
     public void call(VTerminal terminal) {
-        terminal.cRnL();
+        terminal.newLine();
     }
 }

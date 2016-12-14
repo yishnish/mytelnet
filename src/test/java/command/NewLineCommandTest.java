@@ -8,15 +8,15 @@ import terminal.Vermont;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class CrNlCommandTest {
+public class NewLineCommandTest {
 
     @Test
-    public void testMovesCursorToStartOfNextLine() {
+    public void testMovesCursorToCurrentColumnOnNextLine() {
         VTerminal terminal = new Vermont();
         terminal.moveCursor(new CursorPosition(1, 2));
-        CrNlCommand command = new CrNlCommand();
+        NewLineCommand command = new NewLineCommand();
         terminal.accept(command);
 
-        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(2, 0)));
+        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(2, 2)));
     }
 }

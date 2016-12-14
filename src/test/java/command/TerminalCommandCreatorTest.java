@@ -71,6 +71,12 @@ public class TerminalCommandCreatorTest {
     }
 
     @Test
+    public void testCarriageReturnNewLine() throws Exception {
+
+
+    }
+
+    @Test
     public void testIgnoringBoringCommands() {
         commandCreator.write(Ascii.ESC).ifPresent(terminal);
         commandCreator.write('[').ifPresent(terminal);
