@@ -93,10 +93,9 @@ public class VermontTest {
     @Test
     public void testExecutingATerminalCommand() throws Exception {
         CharacterWriteCommand command = new CharacterWriteCommand('z');
-        CursorPosition home = new CursorPosition(0, 0);
-        vermont.moveCursor(home);
+        vermont.moveCursor(CursorPosition.HOME);
         vermont.accept(command);
-        assertThat(vermont.characterAt(home), equalTo(String.valueOf('z')));
+        assertThat(vermont.characterAt(CursorPosition.HOME), equalTo(String.valueOf('z')));
     }
 
     @Test
@@ -108,5 +107,19 @@ public class VermontTest {
         vermont.moveCursor(new CursorPosition(10, 12));
         vermont.accept(new CharacterWriteCommand('t'));
         assertThat(vermont.getScreenText(), containsString("c t"));
+    }
+
+    @Test
+    public void testCarriageReturnNewLine(){
+        vermont.moveCursor(new CursorPosition(1, 2));
+        vermont.cRnL();
+        assertThat(vermont.getCursorPosition(), equalTo(new CursorPosition(2, 0)));
+    }
+
+    @Test
+    public void testCrNlDoesntMoveCursorBelowLastLine_ForConvenienceReallyThisShouldMaybeScroll(){
+        vermont.moveCursor(new CursorPosition(vermont.getHeight() - 1, 1));
+        vermont.cRnL();
+        assertThat(vermont.getCursorPosition(), equalTo(new CursorPosition(vermont.getHeight() - 1, 0)));
     }
 }

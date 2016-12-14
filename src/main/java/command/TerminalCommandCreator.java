@@ -2,29 +2,25 @@ package command;
 
 import parse.CommandParser;
 import terminal.Ascii;
-import terminal.CursorPosition;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class TerminalCommandCreator {
-
     private boolean buildingCommand = false;
+    private boolean dealingWithTwoCharacterIgnorable;
     private ArrayList<Character> command = new ArrayList<Character>();
-    private boolean ignoreNextCharacter;
 
     public Optional<? extends TerminalCommand> write(char c) {
         if(c == Ascii.ESC) {
             buildingCommand = true;
-        } else if(ignoreNextCharacter) {
-            ignoreNextCharacter = false;
+        } else if(dealingWithTwoCharacterIgnorable) {
+            dealingWithTwoCharacterIgnorable = false;
             return Optional.of(new NoOpCommand());
-        } else if(buildingCommand)
-
-        {
+        } else if(buildingCommand) {
             if(c == '(') {
                 buildingCommand = false;
-                ignoreNextCharacter = true;
+                dealingWithTwoCharacterIgnorable = true;
             }
             if(c == 'H' || c == 'f') {
                 buildingCommand = false;
@@ -34,16 +30,9 @@ public class TerminalCommandCreator {
             } else {
                 command.add(c);
             }
-        } else
-
-        {
+        } else {
             return Optional.of(new CharacterWriteCommand(c));
         }
-
-        return Optional.of(new
-
-                        NoOpCommand()
-
-        );
+        return Optional.of(new NoOpCommand());
     }
 }
