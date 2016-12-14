@@ -13,18 +13,16 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CommandParserTest {
-    CommandParser commandParser;
     VTerminal terminal;
     @Before
     public void setUp() throws Exception {
-        commandParser = new CommandParser();
         terminal = new Vermont();
     }
 
     @Test
     public void testParseMoveCommandNoCoords() throws Exception {
         terminal.moveCursor(CursorPosition.HOME);
-        TerminalCommand commandH = commandParser.parseCommand(listOf('[', ';', 'H'));
+        TerminalCommand commandH = CommandParser.parseCommand(listOf('[', ';', 'H'));
         terminal.accept(commandH);
         assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
     }
@@ -32,7 +30,7 @@ public class CommandParserTest {
     @Test
     public void testParseMoveCommandWithCoords() throws Exception {
         terminal.moveCursor(CursorPosition.HOME);
-        TerminalCommand commandH = commandParser.parseCommand(listOf('[', '1', ';', '2'));
+        TerminalCommand commandH = CommandParser.parseCommand(listOf('[', '1', ';', '2'));
         terminal.accept(commandH);
         assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(1, 2)));
     }
