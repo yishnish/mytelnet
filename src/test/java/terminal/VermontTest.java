@@ -22,12 +22,12 @@ public class VermontTest {
     public void setUp() {
         vermont = new Vermont();
     }
-//
-//    @Test
-//    public void testSize() {
-//        assertThat(vermont.getHeight(), equalTo(24));
-//        assertThat(vermont.getWidth(), equalTo(80));
-//    }
+
+    @Test
+    public void testSize() {
+        assertThat(vermont.getHeight(), equalTo(24));
+        assertThat(vermont.getWidth(), equalTo(80));
+    }
 
     @Test
     public void testCursorPosition() {
@@ -47,13 +47,13 @@ public class VermontTest {
     }
 
     @Test
-    public void testMovingCursorPositionOutsideSizeIsAnError_tooHigh() {
+    public void testMovingCursorPositionOutsideSizeIsAnError_tooLow() {
         thrown.expect(ScreenAccessOutOfBoundsException.class);
         vermont.moveCursor(new CursorPosition(vermont.getHeight(), 0));
     }
 
     @Test
-    public void testMovingCursorPositionOutsideSizeIsAnError_tooLow() {
+    public void testMovingCursorPositionOutsideSizeIsAnError_tooHigh() {
         thrown.expect(ScreenAccessOutOfBoundsException.class);
         vermont.moveCursor(new CursorPosition(-1, 0));
     }
@@ -67,7 +67,7 @@ public class VermontTest {
     @Test
     public void testMovingCursorPositionOutsideSizeIsAnError_tooRightMate() {
         thrown.expect(ScreenAccessOutOfBoundsException.class);
-        vermont.moveCursor(new CursorPosition(-1, vermont.getWidth()));
+        vermont.moveCursor(new CursorPosition(0, vermont.getWidth()));
     }
 
     @Test

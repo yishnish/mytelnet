@@ -12,7 +12,7 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
     private CursorPosition cursorPosition = new CursorPosition(0, 0);
 
     public Vermont() {
-        this(25, 80);
+        this(24, 80);
     }
 
     public Vermont(int height, int width) {
@@ -44,9 +44,7 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
     }
 
     public void advanceCursor() {
-        if(cursorPosition.getCol() < (getWidth() - 1)) {
-            cursorPosition = new CursorPosition(cursorPosition.getRow(), cursorPosition.getCol() + 1);
-        }
+        cursorPosition = new CursorPosition(cursorPosition.getRow(), Math.min(width - 1, cursorPosition.getCol() + 1));
     }
 
     public void newLine() {
