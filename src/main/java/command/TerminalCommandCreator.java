@@ -25,15 +25,20 @@ public class TerminalCommandCreator {
                 command.clear();
                 buildingCommand = false;
                 return Optional.of(new NoOpCommand());
-            }
-            if(c == '(' || c == ')') {
+            } else if(c == 'C') {
+                buildingCommand = false;
+                command.clear();
+                return Optional.of(new NoOpCommand());
+            } else if(c == '(' || c == ')') {
                 buildingCommand = false;
                 dealingWithTwoCharacterIgnorable = true;
             } else if(c == 'J') {
                 command.clear();
+                buildingCommand = false;
                 return Optional.of(new ClearFromCursorDownCommand());
             } else if(c == 'K') {
                 command.clear();
+                buildingCommand = false;
                 return Optional.of(new ClearFromCursorToEndOfRowCommand());
             } else if(c == 'H' || c == 'f') {
                 buildingCommand = false;

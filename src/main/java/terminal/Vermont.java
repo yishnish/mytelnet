@@ -12,7 +12,7 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
     private CursorPosition cursorPosition = new CursorPosition(0, 0);
 
     public Vermont() {
-        this(24, 80);
+        this(25, 80);
     }
 
     public Vermont(int height, int width) {

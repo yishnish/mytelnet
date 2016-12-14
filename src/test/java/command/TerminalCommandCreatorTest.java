@@ -146,6 +146,7 @@ public class TerminalCommandCreatorTest {
                 {Ascii.ESC, '(', 'B'},
                 {Ascii.ESC, ')', '0'},
                 {Ascii.ESC, '[', '7', 'm'},
+                {Ascii.ESC, '[', 'C'},
         };
         for (char[] ignorable : ignorables) {
             for (char c : ignorable) {

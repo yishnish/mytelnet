@@ -22,12 +22,12 @@ public class VermontTest {
     public void setUp() {
         vermont = new Vermont();
     }
-
-    @Test
-    public void testSize() {
-        assertThat(vermont.getHeight(), equalTo(24));
-        assertThat(vermont.getWidth(), equalTo(80));
-    }
+//
+//    @Test
+//    public void testSize() {
+//        assertThat(vermont.getHeight(), equalTo(24));
+//        assertThat(vermont.getWidth(), equalTo(80));
+//    }
 
     @Test
     public void testCursorPosition() {

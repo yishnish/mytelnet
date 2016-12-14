@@ -37,12 +37,12 @@ public class MyTelnetNegotiatorTest {
         Thread.sleep(100);
         myTelnetNegotiator.send(PASSWORD);
         Thread.sleep(400);
-        myTelnetNegotiator.send("nethack");
-        Thread.sleep(400);
-        myTelnetNegotiator.send("y");
-        Thread.sleep(400);
-        String screenText = myTelnetNegotiator.getScreenText();
-        System.out.println(screenText);
-//        assertThat(myTelnetNegotiator.getScreenText(), containsString("vagrant@vagrant:"));
+//        myTelnetNegotiator.send("nethack");
+//        Thread.sleep(400);
+//        myTelnetNegotiator.send("y");
+//        Thread.sleep(400);
+//        String screenText = myTelnetNegotiator.getScreenText();
+//        System.out.println(screenText);
+        assertThat(myTelnetNegotiator.getScreenText(), containsString("vagrant@vagrant:"));
     }
 }
