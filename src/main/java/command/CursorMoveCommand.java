@@ -3,15 +3,43 @@ package command;
 import terminal.CursorPosition;
 import terminal.VTerminal;
 
-public class CursorMoveCommand implements TerminalCommand{
+import java.util.ArrayList;
+import java.util.function.Predicate;
+
+public class CursorMoveCommand implements TerminalCommand {
     private CursorPosition position;
 
-    public CursorMoveCommand(CursorPosition position) {
-
-        this.position = position;
+    public CursorMoveCommand(ArrayList<Character> commandSequence) {
+        this.position = extractCoordinates(commandSequence);
     }
 
     public void call(VTerminal terminal) {
         terminal.moveCursor(position);
+    }
+
+    private static CursorPosition extractCoordinates(ArrayList<Character> characters) {
+        removeLeadingBracket(characters);
+        StringBuilder builder = new StringBuilder();
+        for (Character character : characters) {
+            builder.append(character);
+        }
+        String[] params = builder.toString().split(";");
+
+        if(params.length == 0 || params.length == 1 || isNullOrEmpty(params[0]) || isNullOrEmpty(params[1])) {
+            return CursorPosition.HOME;
+        }
+        return new CursorPosition(Integer.parseInt(params[0]), Integer.parseInt(params[1]));
+    }
+
+    private static void removeLeadingBracket(ArrayList<Character> characters) {
+        characters.removeIf(new Predicate<Character>() {
+            public boolean test(Character character) {
+                return character == '[';
+            }
+        });
+    }
+
+    private static boolean isNullOrEmpty(String string) {
+        return string == null || string.isEmpty();
     }
 }

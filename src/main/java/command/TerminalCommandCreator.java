@@ -1,6 +1,5 @@
 package command;
 
-import parse.CommandParser;
 import terminal.Ascii;
 
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ public class TerminalCommandCreator {
             return Optional.of(new NewLineCommand());
         } else if(dealingWithTwoCharacterIgnorable) {
             dealingWithTwoCharacterIgnorable = false;
-            return Optional.of(new NoOpCommand());
         } else if(buildingCommand) {
             if(c == '(' || c == ')') {
                 buildingCommand = false;
@@ -28,7 +26,7 @@ public class TerminalCommandCreator {
             }
             if(c == 'H' || c == 'f') {
                 buildingCommand = false;
-                Optional<TerminalCommand> terminalCommand = Optional.of(CommandParser.parseCommand(command));
+                Optional<CursorMoveCommand> terminalCommand = Optional.of(new CursorMoveCommand(command));
                 command.clear();
                 return terminalCommand;
             } else {
