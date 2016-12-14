@@ -32,7 +32,7 @@ public class TerminalCommandCreatorTest {
 
     @Test
     public void testWritingAPartialCommandSequenceGivesANoOpCommand() throws Exception {
-        terminal.moveCursor(CursorPosition.HOME);
+        terminal.home();
         terminal.write("X");
 
         Optional<? extends TerminalCommand> command = commandCreator.write(Ascii.ESC);
@@ -43,7 +43,7 @@ public class TerminalCommandCreatorTest {
 
     @Test
     public void testAddingCharactersAfterStartingACommandSequenceReturnsNoOpCommands() throws Exception {
-        terminal.moveCursor(CursorPosition.HOME);
+        terminal.home();
         terminal.write("X");
 
         commandCreator.write(Ascii.ESC).ifPresent(terminal);
@@ -54,7 +54,7 @@ public class TerminalCommandCreatorTest {
 
     @Test
     public void testCompletingCommandSequenceReturnsACommand() throws Exception {
-        terminal.moveCursor(CursorPosition.HOME);
+        terminal.home();
         terminal.write("X");
 
         commandCreator.write(Ascii.ESC).ifPresent(terminal);
@@ -93,9 +93,9 @@ public class TerminalCommandCreatorTest {
         we aren't in the process of building a command by writing a character and seeing that it gets written to the
         screen.
          */
-        terminal.moveCursor(CursorPosition.HOME);
+        terminal.home();
         commandCreator.write('W').ifPresent(terminal);
-        terminal.moveCursor(CursorPosition.HOME);
+        terminal.home();
         char[][] ignorables = {
                 {Ascii.ESC, '(', 'B'},
                 {Ascii.ESC, ')', '0'}

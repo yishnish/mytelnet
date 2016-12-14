@@ -26,4 +26,6 @@ public interface VTerminal extends Consumer<TerminalCommand>{
     void newLine();
 
     void carriageReturn();
+
+    void home();
 }

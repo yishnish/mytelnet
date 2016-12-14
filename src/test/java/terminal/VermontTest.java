@@ -40,6 +40,13 @@ public class VermontTest {
     }
 
     @Test
+    public void testMovingHome(){
+        vermont.moveCursor(new CursorPosition(4,4));
+        vermont.home();
+        assertThat(vermont.getCursorPosition(), equalTo(CursorPosition.HOME));
+    }
+
+    @Test
     public void testMovingCursorPositionOutsideSizeIsAnError_tooHigh() {
         thrown.expect(ScreenAccessOutOfBoundsException.class);
         vermont.moveCursor(new CursorPosition(vermont.getHeight(), 0));
@@ -65,7 +72,7 @@ public class VermontTest {
 
     @Test
     public void testAdvancingCursorWithinBounds() throws Exception {
-        vermont.moveCursor(CursorPosition.HOME);
+        vermont.home();
         vermont.advanceCursor();
         assertThat(vermont.getCursorPosition(), equalTo(new CursorPosition(0, 1)));
     }
@@ -93,7 +100,7 @@ public class VermontTest {
     @Test
     public void testExecutingATerminalCommand() throws Exception {
         CharacterWriteCommand command = new CharacterWriteCommand('z');
-        vermont.moveCursor(CursorPosition.HOME);
+        vermont.home();
         vermont.accept(command);
         assertThat(vermont.characterAt(CursorPosition.HOME), equalTo(String.valueOf('z')));
     }

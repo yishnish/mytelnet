@@ -47,6 +47,10 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
         cursorPosition = new CursorPosition(cursorPosition.getRow(), 0);
     }
 
+    public void home() {
+        cursorPosition = CursorPosition.HOME;
+    }
+
     public CursorPosition getCursorPosition() {
         return cursorPosition;
     }

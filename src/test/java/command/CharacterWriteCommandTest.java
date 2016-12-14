@@ -12,7 +12,7 @@ public class CharacterWriteCommandTest {
     @Test
     public void testCommandsTerminalToWriteACharacter() throws Exception {
         Vermont terminal = new Vermont();
-        terminal.moveCursor(CursorPosition.HOME);
+        terminal.home();
         CharacterWriteCommand command = new CharacterWriteCommand('L');
 
         command.call(terminal);

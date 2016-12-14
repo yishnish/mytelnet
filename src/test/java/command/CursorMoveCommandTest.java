@@ -19,7 +19,6 @@ public class CursorMoveCommandTest {
     @Before
     public void setUp() throws Exception {
         terminal = new Vermont();
-        terminal.moveCursor(CursorPosition.HOME);
     }
 
     @Test
@@ -33,7 +32,7 @@ public class CursorMoveCommandTest {
 
     @Test
     public void testMoveHomeWithSemicolon() throws Exception {
-        terminal.moveCursor(CursorPosition.HOME);
+        terminal.home();
         CursorMoveCommand commandHSemi = new CursorMoveCommand(listOf('[', ';', 'H'));
         terminal.accept(commandHSemi);
         assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
@@ -41,7 +40,7 @@ public class CursorMoveCommandTest {
 
     @Test
     public void testMoveCommandWithoutSemicolon() throws Exception {
-        terminal.moveCursor(CursorPosition.HOME);
+        terminal.home();
         CursorMoveCommand commandHSemi = new CursorMoveCommand(listOf('[', 'H'));
         terminal.accept(commandHSemi);
         assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
@@ -49,7 +48,7 @@ public class CursorMoveCommandTest {
 
     @Test
     public void testMoveCommandWithCoords() throws Exception {
-        terminal.moveCursor(CursorPosition.HOME);
+        terminal.home();
         CursorMoveCommand commandH = new CursorMoveCommand(listOf('[', '1', ';', '2'));
         terminal.accept(commandH);
         assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(1, 2)));
