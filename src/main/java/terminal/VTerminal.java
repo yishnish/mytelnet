@@ -28,4 +28,6 @@ public interface VTerminal extends Consumer<TerminalCommand>{
     void carriageReturn();
 
     void home();
+
+    void clearFromCursorDown();
 }

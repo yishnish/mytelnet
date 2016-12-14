@@ -4,11 +4,14 @@ import org.junit.Before;
 import org.junit.Test;
 import terminal.Ascii;
 import terminal.CursorPosition;
+import terminal.VTerminal;
 import terminal.Vermont;
 
 import java.util.Optional;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TerminalCommandCreatorTest {
@@ -82,6 +85,27 @@ public class TerminalCommandCreatorTest {
         terminal.moveCursor(new CursorPosition(3, 4));
         commandCreator.write(Ascii.LF).ifPresent(terminal);
         assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(4, 4)));
+    }
+
+    @Test
+    public void testClearingFromCursorDown() throws Exception {
+        VTerminal terminal = new Vermont(4, 4);
+        terminal.home();
+        commandCreator.write('A').ifPresent(terminal);
+        commandCreator.write('B').ifPresent(terminal);
+        commandCreator.write('C').ifPresent(terminal);
+        terminal.moveCursor(new CursorPosition(1, 2));
+        commandCreator.write('D').ifPresent(terminal);
+        terminal.moveCursor(new CursorPosition(0, 2));
+
+        commandCreator.write(Ascii.ESC).ifPresent(terminal);
+        commandCreator.write('[').ifPresent(terminal);
+        commandCreator.write('J').ifPresent(terminal);
+
+        assertThat(terminal.getScreenText(), containsString("A"));
+        assertThat(terminal.getScreenText(), containsString("B"));
+        assertThat(terminal.getScreenText(), not(containsString("C")));
+        assertThat(terminal.getScreenText(), not(containsString("D")));
     }
 
     @Test

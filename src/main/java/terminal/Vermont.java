@@ -6,17 +6,27 @@ import java.util.function.Consumer;
 
 public class Vermont implements VTerminal, Consumer<TerminalCommand> {
 
-    private int height = 24;
-    private int width = 80;
+    private int height;
+    private int width;
+    private String[][] screen;
     private CursorPosition cursorPosition = new CursorPosition(0, 0);
-    private String[][] screen = new String[height][width];
+
+    public Vermont() {
+        this(24, 80);
+    }
+
+    public Vermont(int height, int width) {
+        this.height = height;
+        this.width = width;
+        this.screen = new String[height][width];
+    }
 
     public int getHeight() {
-        return height;
+        return this.height;
     }
 
     public int getWidth() {
-        return width;
+        return this.width;
     }
 
     public void accept(TerminalCommand command) {
@@ -49,6 +59,31 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
 
     public void home() {
         cursorPosition = CursorPosition.HOME;
+    }
+
+    public void clearFromCursorDown() {
+        clearFromCursorToEndOfRow();
+        clearRowsBelowCursor();
+    }
+
+    private void clearFromCursorToEndOfRow() {
+        int column = cursorPosition.getCol();
+        int row = cursorPosition.getRow();
+        for (int i = column; i < width; i++) {
+            screen[row][i] = null;
+        }
+    }
+
+    private void clearRowsBelowCursor() {
+        for (int i = cursorPosition.getRow() + 1; i < height; i++) {
+            clearRow(i);
+        }
+    }
+
+    private void clearRow(int row) {
+        for (int i = 0; i < width; i++) {
+            screen[row][i] = null;
+        }
     }
 
     public CursorPosition getCursorPosition() {
