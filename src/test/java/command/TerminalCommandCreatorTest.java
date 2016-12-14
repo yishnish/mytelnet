@@ -98,14 +98,36 @@ public class TerminalCommandCreatorTest {
         commandCreator.write('D').ifPresent(terminal);
         terminal.moveCursor(new CursorPosition(0, 2));
 
-        commandCreator.write(Ascii.ESC).ifPresent(terminal);
-        commandCreator.write('[').ifPresent(terminal);
-        commandCreator.write('J').ifPresent(terminal);
+        char[] clearFromCursorDown = {Ascii.ESC, '[', 'J'};
+        for (char c : clearFromCursorDown) {
+            commandCreator.write(c).ifPresent(terminal);
+        }
 
         assertThat(terminal.getScreenText(), containsString("A"));
         assertThat(terminal.getScreenText(), containsString("B"));
         assertThat(terminal.getScreenText(), not(containsString("C")));
         assertThat(terminal.getScreenText(), not(containsString("D")));
+    }
+
+    @Test
+    public void testClearingFromCursorToEndOfRow() throws Exception {
+        VTerminal terminal = new Vermont(4, 4);
+        terminal.home();
+        commandCreator.write('A').ifPresent(terminal);
+        commandCreator.write('B').ifPresent(terminal);
+        commandCreator.write('C').ifPresent(terminal);
+        terminal.moveCursor(new CursorPosition(1, 0));
+        commandCreator.write('D').ifPresent(terminal);
+        terminal.moveCursor(new CursorPosition(0, 1));
+
+        char[] clearRightSequence = {Ascii.ESC, '[', 'K'};
+        for (char c : clearRightSequence) {
+            commandCreator.write(c).ifPresent(terminal);
+        }
+        assertThat(terminal.getScreenText(), containsString("A"));
+        assertThat(terminal.getScreenText(), not(containsString("B")));
+        assertThat(terminal.getScreenText(), not(containsString("C")));
+        assertThat(terminal.getScreenText(), containsString("D"));
     }
 
     @Test

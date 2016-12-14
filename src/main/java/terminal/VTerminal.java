@@ -30,4 +30,6 @@ public interface VTerminal extends Consumer<TerminalCommand>{
     void home();
 
     void clearFromCursorDown();
+
+    void clearFromCursorToEndOfRow();
 }

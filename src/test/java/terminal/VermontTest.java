@@ -1,7 +1,6 @@
 package terminal;
 
 import command.CharacterWriteCommand;
-import command.TerminalCommandCreator;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -9,6 +8,7 @@ import org.junit.rules.ExpectedException;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class VermontTest {
@@ -135,5 +135,19 @@ public class VermontTest {
         vermont.moveCursor(new CursorPosition(vermont.getHeight() - 1, 1));
         vermont.carriageReturn();
         assertThat(vermont.getCursorPosition(), equalTo(new CursorPosition(vermont.getHeight() - 1, 0)));
+    }
+
+    @Test
+    public void testClearingLineFromCursorRight() throws Exception {
+        VTerminal vermont = new Vermont(4, 4);
+        vermont.home();
+        vermont.write("A");
+        vermont.write("B");
+        vermont.write("C");
+        vermont.moveCursor(new CursorPosition(0, 1));
+        vermont.clearFromCursorToEndOfRow();
+        assertThat(vermont.getScreenText(), containsString("A"));
+        assertThat(vermont.getScreenText(), not(containsString("B")));
+        assertThat(vermont.getScreenText(), not(containsString("C")));
     }
 }

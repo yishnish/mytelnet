@@ -66,7 +66,7 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
         clearRowsBelowCursor();
     }
 
-    private void clearFromCursorToEndOfRow() {
+    public void clearFromCursorToEndOfRow() {
         int column = cursorPosition.getCol();
         int row = cursorPosition.getRow();
         for (int i = column; i < width; i++) {

@@ -32,6 +32,9 @@ public class TerminalCommandCreator {
             } else if(c == 'J') {
                 command.clear();
                 return Optional.of(new ClearFromCursorDownCommand());
+            } else if(c == 'K') {
+                command.clear();
+                return Optional.of(new ClearFromCursorToEndOfRowCommand());
             } else if(c == 'H' || c == 'f') {
                 buildingCommand = false;
                 Optional<CursorMoveCommand> terminalCommand = Optional.of(new CursorMoveCommand(command));
