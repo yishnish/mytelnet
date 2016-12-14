@@ -21,7 +21,7 @@ public class CommandParser {
         }
         String[] params = builder.toString().split(";");
 
-        if(params.length == 0 || isNullOrEmpty(params[0]) || isNullOrEmpty(params[1])) {
+        if(params.length == 0 || params.length == 1 || isNullOrEmpty(params[0]) || isNullOrEmpty(params[1])) {
             return CursorPosition.HOME;
         }
         return new CursorPosition(Integer.parseInt(params[0]), Integer.parseInt(params[1]));

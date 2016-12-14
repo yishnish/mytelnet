@@ -20,10 +20,18 @@ public class CommandParserTest {
     }
 
     @Test
-    public void testParseMoveCommandNoCoords() throws Exception {
+    public void testParseMoveHomeWithSemicolon() throws Exception {
         terminal.moveCursor(CursorPosition.HOME);
-        TerminalCommand commandH = CommandParser.parseCommand(listOf('[', ';', 'H'));
-        terminal.accept(commandH);
+        TerminalCommand commandHSemi = CommandParser.parseCommand(listOf('[', ';', 'H'));
+        terminal.accept(commandHSemi);
+        assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
+    }
+
+    @Test
+    public void testParseMoveCommandWithoutSemicolon() throws Exception {
+        terminal.moveCursor(CursorPosition.HOME);
+        TerminalCommand commandHSemi = CommandParser.parseCommand(listOf('[', 'H'));
+        terminal.accept(commandHSemi);
         assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
     }
 
