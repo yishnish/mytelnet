@@ -14,6 +14,10 @@ public class TerminalCommandCreator {
     public Optional<? extends TerminalCommand> write(char c) {
         if(c == Ascii.ESC) {
             buildingCommand = true;
+        } else if(c == Ascii.CR) {
+            return Optional.of(new CarriageReturnCommand());
+        } else if(c == Ascii.LF) {
+            return Optional.of(new NewLineCommand());
         } else if(dealingWithTwoCharacterIgnorable) {
             dealingWithTwoCharacterIgnorable = false;
             return Optional.of(new NoOpCommand());

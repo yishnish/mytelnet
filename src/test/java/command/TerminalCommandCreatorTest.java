@@ -71,9 +71,17 @@ public class TerminalCommandCreatorTest {
     }
 
     @Test
-    public void testCarriageReturnNewLine() throws Exception {
+    public void testCarriageReturn() throws Exception {
+        terminal.moveCursor(new CursorPosition(3, 4));
+        commandCreator.write(Ascii.CR).ifPresent(terminal);
+        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(3, 0)));
+    }
 
-
+    @Test
+    public void testNewLine() throws Exception {
+        terminal.moveCursor(new CursorPosition(3, 4));
+        commandCreator.write(Ascii.LF).ifPresent(terminal);
+        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(4, 4)));
     }
 
     @Test
