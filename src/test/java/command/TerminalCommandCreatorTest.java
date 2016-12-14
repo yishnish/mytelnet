@@ -86,10 +86,28 @@ public class TerminalCommandCreatorTest {
 
     @Test
     public void testIgnoringBoringCommands() {
-        commandCreator.write(Ascii.ESC).ifPresent(terminal);
-        commandCreator.write('[').ifPresent(terminal);
-        commandCreator.write('(').ifPresent(terminal);
-        commandCreator.write('B').ifPresent(terminal);
-        assertThat(true, equalTo(true)); //just testing that nothing is thrown
+        /*
+        An explanation: move the cursor to a known position. Write a character. Move back to known position (because we
+        auto-increment after writing). Execute a bunch of commands that should be ignored. Verify the cursor is where
+        we left it (although it could have moved away then back...). Verify the character hasn't changed. Verify that
+        we aren't in the process of building a command by writing a character and seeing that it gets written to the
+        screen.
+         */
+        terminal.moveCursor(CursorPosition.HOME);
+        commandCreator.write('W').ifPresent(terminal);
+        terminal.moveCursor(CursorPosition.HOME);
+        char[][] ignorables = {
+                {Ascii.ESC, '(', 'B'},
+                {Ascii.ESC, ')', '0'}
+        };
+        for (char[] ignorable : ignorables) {
+            for (char c : ignorable) {
+                commandCreator.write(c).ifPresent(terminal);
+            }
+        }
+        assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
+        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo("W"));
+        commandCreator.write('M').ifPresent(terminal);
+        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo("M"));
     }
 }

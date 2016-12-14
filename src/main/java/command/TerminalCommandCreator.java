@@ -22,7 +22,7 @@ public class TerminalCommandCreator {
             dealingWithTwoCharacterIgnorable = false;
             return Optional.of(new NoOpCommand());
         } else if(buildingCommand) {
-            if(c == '(') {
+            if(c == '(' || c == ')') {
                 buildingCommand = false;
                 dealingWithTwoCharacterIgnorable = true;
             }
