@@ -69,4 +69,13 @@ public class TerminalCommandCreatorTest {
         assertThat(terminal.characterAt(CursorPosition.HOME), equalTo("X"));
         assertThat(terminal.characterAt(new CursorPosition(1, 2)), equalTo("Y"));
     }
+
+    @Test
+    public void testIgnoringBoringCommands() {
+        commandCreator.write(Ascii.ESC).ifPresent(terminal);
+        commandCreator.write('[').ifPresent(terminal);
+        commandCreator.write('(').ifPresent(terminal);
+        commandCreator.write('B').ifPresent(terminal);
+        assertThat(true, equalTo(true)); //just testing that nothing is thrown
+    }
 }
