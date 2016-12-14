@@ -122,7 +122,8 @@ public class TerminalCommandCreatorTest {
         terminal.home();
         char[][] ignorables = {
                 {Ascii.ESC, '(', 'B'},
-                {Ascii.ESC, ')', '0'}
+                {Ascii.ESC, ')', '0'},
+                {Ascii.ESC, '[', '7', 'm'},
         };
         for (char[] ignorable : ignorables) {
             for (char c : ignorable) {

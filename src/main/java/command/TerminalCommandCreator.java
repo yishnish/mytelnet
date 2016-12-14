@@ -18,12 +18,19 @@ public class TerminalCommandCreator {
         } else if(c == Ascii.LF) {
             return Optional.of(new NewLineCommand());
         } else if(dealingWithTwoCharacterIgnorable) {
+            command.clear();
             dealingWithTwoCharacterIgnorable = false;
         } else if(buildingCommand) {
+            if(c == 'm') {
+                command.clear();
+                buildingCommand = false;
+                return Optional.of(new NoOpCommand());
+            }
             if(c == '(' || c == ')') {
                 buildingCommand = false;
                 dealingWithTwoCharacterIgnorable = true;
             } else if(c == 'J') {
+                command.clear();
                 return Optional.of(new ClearFromCursorDownCommand());
             } else if(c == 'H' || c == 'f') {
                 buildingCommand = false;
