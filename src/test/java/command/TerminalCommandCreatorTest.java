@@ -2,10 +2,7 @@ package command;
 
 import org.junit.Before;
 import org.junit.Test;
-import terminal.Ascii;
-import terminal.CursorPosition;
-import terminal.VTerminal;
-import terminal.Vermont;
+import terminal.*;
 
 import java.util.Optional;
 
@@ -71,6 +68,45 @@ public class TerminalCommandCreatorTest {
 
         assertThat(terminal.characterAt(CursorPosition.HOME), equalTo("X"));
         assertThat(terminal.characterAt(new CursorPosition(1, 2)), equalTo("Y"));
+    }
+
+    @Test
+    public void testMovingTheCursorInZeroBasedMode() throws Exception {
+        terminal.home();
+        terminal.write("X");
+
+        commandCreator.setMode(TerminalMode.ZERO_BASED);
+        commandCreator.write(Ascii.ESC).ifPresent(terminal);
+        commandCreator.write('[').ifPresent(terminal);
+        commandCreator.write('1').ifPresent(terminal);
+        commandCreator.write(';').ifPresent(terminal);
+        commandCreator.write('2').ifPresent(terminal);
+        commandCreator.write('H').ifPresent(terminal);
+
+        commandCreator.write('Y').ifPresent(terminal);
+
+        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo("X"));
+        assertThat(terminal.characterAt(new CursorPosition(1, 2)), equalTo("Y"));
+    }
+
+    @Test
+    public void testMovingTheCursorInOnesBasedMode() throws Exception {
+        terminal.home();
+        terminal.write("X");
+
+        commandCreator.setMode(TerminalMode.ONES_BASED);
+        commandCreator.write(Ascii.ESC).ifPresent(terminal);
+        commandCreator.write('[').ifPresent(terminal);
+        commandCreator.write('1').ifPresent(terminal);
+        commandCreator.write(';').ifPresent(terminal);
+        commandCreator.write('2').ifPresent(terminal);
+        commandCreator.write('H').ifPresent(terminal);
+
+        commandCreator.write('Y').ifPresent(terminal);
+
+        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo("X"));
+        assertThat(terminal.characterAt(new CursorPosition(0, 1)), equalTo("Y"));
+        assertThat(terminal.characterAt(new CursorPosition(1, 2)), equalTo(null));
     }
 
     @Test
@@ -147,6 +183,7 @@ public class TerminalCommandCreatorTest {
                 {Ascii.ESC, ')', '0'},
                 {Ascii.ESC, '[', '7', 'm'},
                 {Ascii.ESC, '[', 'C'},
+                {Ascii.ESC, '[', 'A'},
         };
         for (char[] ignorable : ignorables) {
             for (char c : ignorable) {

@@ -33,9 +33,13 @@ public class TerminalCommandCreator {
                 command.clear();
                 buildingCommand = false;
                 return Optional.of(new NoOpCommand());
-            } else if(c == 'C') {
-                buildingCommand = false;
+            } else if(c == 'A') {
                 command.clear();
+                buildingCommand = false;
+                return Optional.of(new NoOpCommand());
+            }  else if(c == 'C') {
+                command.clear();
+                buildingCommand = false;
                 return Optional.of(new NoOpCommand());
             } else if(c == '(' || c == ')') {
                 buildingCommand = false;
@@ -60,5 +64,9 @@ public class TerminalCommandCreator {
             return Optional.of(new CharacterWriteCommand(c));
         }
         return Optional.of(new NoOpCommand());
+    }
+
+    public void setMode(TerminalMode mode) {
+        cursorMoveCommandFactory.setMode(mode);
     }
 }

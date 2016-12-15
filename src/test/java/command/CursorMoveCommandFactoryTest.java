@@ -27,7 +27,7 @@ public class CursorMoveCommandFactoryTest {
     public void testCreatingCursorMoveCommandsInOnesBasedModeIsOnesBased() throws Exception {
         VTerminal terminal = new Vermont();
         CursorMoveCommandFactory commandFactory = new CursorMoveCommandFactory();
-        commandFactory.setMode(TerminalMode.ONE_BASED);
+        commandFactory.setMode(TerminalMode.ONES_BASED);
         CursorMoveCommand command = commandFactory.createCommand(listOf('[', '1', ';', '1'));
         terminal.accept(command);
 
