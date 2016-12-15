@@ -3,7 +3,6 @@ package network.functional;
 import network.MyTelnetNegotiator;
 import org.apache.commons.net.telnet.TelnetClient;
 import org.junit.Test;
-import terminal.TerminalMode;
 import terminal.Vermont;
 
 import java.io.IOException;
@@ -38,13 +37,6 @@ public class MyTelnetNegotiatorTest {
         Thread.sleep(100);
         myTelnetNegotiator.send(PASSWORD);
         Thread.sleep(500);
-//        myTelnetNegotiator.setMode(TerminalMode.ONES_BASED);
-//        myTelnetNegotiator.send("nethack");
-//        Thread.sleep(400);
-//        Thread.sleep(400);
-//        myTelnetNegotiator.send("y");
-//        String screenText = myTelnetNegotiator.getScreenText();
-//        System.out.println(screenText);
         assertThat(myTelnetNegotiator.getScreenText(), containsString("vagrant@vagrant:"));
     }
 }
