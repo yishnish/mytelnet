@@ -40,8 +40,8 @@ public class VermontTest {
     }
 
     @Test
-    public void testMovingHome(){
-        vermont.moveCursor(new CursorPosition(4,4));
+    public void testMovingHome() {
+        vermont.moveCursor(new CursorPosition(4, 4));
         vermont.home();
         assertThat(vermont.getCursorPosition(), equalTo(CursorPosition.HOME));
     }
@@ -131,7 +131,7 @@ public class VermontTest {
     }
 
     @Test
-    public void testCarriageReturnDoesntMoveCursorBelowLastLine_ForConvenienceReallyThisShouldMaybeScroll(){
+    public void testCarriageReturnDoesntMoveCursorBelowLastLine_ForConvenienceReallyThisShouldMaybeScroll() {
         vermont.moveCursor(new CursorPosition(vermont.getHeight() - 1, 1));
         vermont.carriageReturn();
         assertThat(vermont.getCursorPosition(), equalTo(new CursorPosition(vermont.getHeight() - 1, 0)));
@@ -149,5 +149,13 @@ public class VermontTest {
         assertThat(vermont.getScreenText(), containsString("A"));
         assertThat(vermont.getScreenText(), not(containsString("B")));
         assertThat(vermont.getScreenText(), not(containsString("C")));
+    }
+
+    @Test
+    public void testAccessToTheScreenBuffer() throws Exception {
+        vermont.home();
+        vermont.write("X");
+        assertThat(vermont.getScreenBuffer()[0][0], equalTo("X"));
+
     }
 }

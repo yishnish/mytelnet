@@ -59,10 +59,6 @@ public class MyTelnetNegotiator {
         outputStream.flush();
     }
 
-    public String getScreenText() {
-        return terminal.getScreenText();
-    }
-
     public void setMode(TerminalMode terminalMode) {
         commandCreator.setMode(terminalMode);
     }

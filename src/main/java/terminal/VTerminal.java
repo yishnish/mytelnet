@@ -32,4 +32,6 @@ public interface VTerminal extends Consumer<TerminalCommand>{
     void clearFromCursorDown();
 
     void clearFromCursorToEndOfRow();
+
+    String[][] getScreenBuffer();
 }

@@ -23,7 +23,7 @@ public class MyTelnetNegotiatorTest {
         MyTelnetNegotiator myTelnetNegotiator = new MyTelnetNegotiator(vermont, telnetClient);
         myTelnetNegotiator.connect("localhost");
         Thread.sleep(100);
-        assertThat(myTelnetNegotiator.getScreenText(), containsString("login:"));
+        assertThat(vermont.getScreenText(), containsString("login:"));
     }
 
     @Test
@@ -37,6 +37,6 @@ public class MyTelnetNegotiatorTest {
         Thread.sleep(100);
         myTelnetNegotiator.send(PASSWORD);
         Thread.sleep(500);
-        assertThat(myTelnetNegotiator.getScreenText(), containsString("vagrant@vagrant:"));
+        assertThat(vermont.getScreenText(), containsString("vagrant@vagrant:"));
     }
 }

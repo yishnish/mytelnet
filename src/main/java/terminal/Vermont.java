@@ -72,6 +72,10 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
         }
     }
 
+    public String[][] getScreenBuffer() {
+        return screen;
+    }
+
     private void clearRowsBelowCursor() {
         for (int i = cursorPosition.getRow() + 1; i < height; i++) {
             clearRow(i);
