@@ -7,13 +7,11 @@ import terminal.VTerminal;
 import terminal.Vermont;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class CursorMoveCommandTest {
+public class ZeroBasedCursorMoveCommandTest {
     VTerminal terminal;
 
     @Before
@@ -24,7 +22,7 @@ public class CursorMoveCommandTest {
     @Test
     public void testCreatingCommandFromCharacters() throws Exception {
         assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
-        CursorMoveCommand command = new CursorMoveCommand(listOf('[', '1', ';', '3'));
+        ZeroBasedCursorMoveCommand command = new ZeroBasedCursorMoveCommand(listOf('[', '1', ';', '3'));
         terminal.accept(command);
 
         assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(1, 3)));
@@ -33,7 +31,7 @@ public class CursorMoveCommandTest {
     @Test
     public void testMoveHomeWithSemicolon() throws Exception {
         terminal.home();
-        CursorMoveCommand commandHSemi = new CursorMoveCommand(listOf('[', ';', 'H'));
+        ZeroBasedCursorMoveCommand commandHSemi = new ZeroBasedCursorMoveCommand(listOf('[', ';', 'H'));
         terminal.accept(commandHSemi);
         assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
     }
@@ -41,7 +39,7 @@ public class CursorMoveCommandTest {
     @Test
     public void testMoveCommandWithoutSemicolon() throws Exception {
         terminal.home();
-        CursorMoveCommand commandHSemi = new CursorMoveCommand(listOf('[', 'H'));
+        ZeroBasedCursorMoveCommand commandHSemi = new ZeroBasedCursorMoveCommand(listOf('[', 'H'));
         terminal.accept(commandHSemi);
         assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
     }
@@ -49,7 +47,7 @@ public class CursorMoveCommandTest {
     @Test
     public void testMoveCommandWithCoords() throws Exception {
         terminal.home();
-        CursorMoveCommand commandH = new CursorMoveCommand(listOf('[', '1', ';', '2'));
+        ZeroBasedCursorMoveCommand commandH = new ZeroBasedCursorMoveCommand(listOf('[', '1', ';', '2'));
         terminal.accept(commandH);
         assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(1, 2)));
     }

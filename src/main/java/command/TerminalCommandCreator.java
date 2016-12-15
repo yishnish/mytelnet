@@ -1,6 +1,8 @@
 package command;
 
 import terminal.Ascii;
+import terminal.CursorMoveCommandFactory;
+import terminal.TerminalMode;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -9,6 +11,12 @@ public class TerminalCommandCreator {
     private boolean buildingCommand = false;
     private boolean dealingWithTwoCharacterIgnorable;
     private ArrayList<Character> command = new ArrayList<Character>();
+    private CursorMoveCommandFactory cursorMoveCommandFactory;
+
+    public TerminalCommandCreator(){
+        cursorMoveCommandFactory = new CursorMoveCommandFactory();
+        cursorMoveCommandFactory.setMode(TerminalMode.ZERO_BASED);
+    }
 
     public Optional<? extends TerminalCommand> write(char c) {
         if(c == Ascii.ESC) {
@@ -42,7 +50,7 @@ public class TerminalCommandCreator {
                 return Optional.of(new ClearFromCursorToEndOfRowCommand());
             } else if(c == 'H' || c == 'f') {
                 buildingCommand = false;
-                Optional<CursorMoveCommand> terminalCommand = Optional.of(new CursorMoveCommand(command));
+                Optional<? extends TerminalCommand> terminalCommand = Optional.of(cursorMoveCommandFactory.createCommand(command));
                 command.clear();
                 return terminalCommand;
             } else {
