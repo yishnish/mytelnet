@@ -59,7 +59,4 @@ public class MyTelnetNegotiator {
         outputStream.flush();
     }
 
-    public void setMode(TerminalMode terminalMode) {
-        commandCreator.setMode(terminalMode);
-    }
 }
