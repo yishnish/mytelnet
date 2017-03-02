@@ -3,7 +3,6 @@ package network;
 import command.TerminalCommandCreator;
 import org.apache.commons.net.telnet.TelnetClient;
 import terminal.CursorPosition;
-import terminal.TerminalMode;
 import terminal.VTerminal;
 
 import java.io.*;

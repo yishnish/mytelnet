@@ -10,4 +10,4 @@ VTerminal stores the current state of the telnet screen in a buffer array. You c
 getScreenText() on your terminal. You can access the screen buffer if you want to do that.
 
 A couple of the tests, for better or worse, expect there to be a running telnet server on localhost. You made need
-to install and start a telnet server if those fail. 
+to install and start a telnet server if those fail.
