@@ -16,6 +16,6 @@ public class CharacterWriteCommandTest {
         CharacterWriteCommand command = new CharacterWriteCommand('L');
 
         command.call(terminal);
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo("L"));
+        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('L'));
     }
 }

@@ -21,11 +21,11 @@ public class ClearFromCursorToEndOfRowCommandTest {
     @Test
     public void testClearFromCursorToEndOfLine() throws Exception {
         terminal.home();
-        terminal.write("A");
-        terminal.write("B");
-        terminal.write("C");
+        terminal.write('A');
+        terminal.write('B');
+        terminal.write('C');
         terminal.moveCursor(new CursorPosition(1, 0));
-        terminal.write("D");
+        terminal.write('D');
         terminal.moveCursor(new CursorPosition(0, 1));
         terminal.accept(new ClearFromCursorToEndOfRowCommand());
 

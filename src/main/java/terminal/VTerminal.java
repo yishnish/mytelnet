@@ -13,9 +13,9 @@ public interface VTerminal extends Consumer<TerminalCommand>{
 
     CursorPosition getCursorPosition();
 
-    void write(String character);
+    void write(char character);
 
-    String characterAt(CursorPosition position);
+    char characterAt(CursorPosition position);
 
     String getScreenText();
 
@@ -33,5 +33,5 @@ public interface VTerminal extends Consumer<TerminalCommand>{
 
     void clearFromCursorToEndOfRow();
 
-    String[][] getScreenBuffer();
+    char[][] getScreenBuffer();
 }

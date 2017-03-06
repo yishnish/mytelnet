@@ -8,7 +8,7 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
 
     private int height;
     private int width;
-    private String[][] screen;
+    private char[][] screen;
     private CursorPosition cursorPosition = new CursorPosition(0, 0);
 
     public Vermont() {
@@ -18,7 +18,7 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
     public Vermont(int height, int width) {
         this.height = height;
         this.width = width;
-        this.screen = new String[height][width];
+        this.screen = new char[height][width];
     }
 
     public int getHeight() {
@@ -33,7 +33,7 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
         command.call(this);
     }
 
-    public void write(String character) {
+    public void write(char character) {
         screen[cursorPosition.getRow()][cursorPosition.getCol()] = character;
         advanceCursor();
     }
@@ -68,11 +68,11 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
         int column = cursorPosition.getCol();
         int row = cursorPosition.getRow();
         for (int i = column; i < width; i++) {
-            screen[row][i] = null;
+            screen[row][i] = Ascii.MIN;
         }
     }
 
-    public String[][] getScreenBuffer() {
+    public char[][] getScreenBuffer() {
         return screen;
     }
 
@@ -84,7 +84,7 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
 
     private void clearRow(int row) {
         for (int i = 0; i < width; i++) {
-            screen[row][i] = null;
+            screen[row][i] = Ascii.MIN;
         }
     }
 
@@ -92,15 +92,15 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
         return cursorPosition;
     }
 
-    public String characterAt(CursorPosition position) {
+    public char characterAt(CursorPosition position) {
         return screen[position.getRow()][position.getCol()];
     }
 
     public String getScreenText() {
         StringBuilder sb = new StringBuilder();
-        for (String[] row : screen) {
-            for (String character : row) {
-                sb.append(character == null ? " " : character);
+        for (char[] row : screen) {
+            for (char character : row) {
+                sb.append(character == Ascii.MIN ? " " : character);
             }
             sb.append("\n");
         }

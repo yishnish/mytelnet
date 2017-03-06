@@ -11,6 +11,6 @@ public class CharacterWriteCommand implements TerminalCommand {
     }
 
     public void call(VTerminal terminal) {
-        terminal.write(String.valueOf(character));
+        terminal.write(character);
     }
 }

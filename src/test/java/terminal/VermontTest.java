@@ -93,8 +93,8 @@ public class VermontTest {
         vermont.accept(new CharacterWriteCommand('X'));
         vermont.moveCursor(yPosition);
         vermont.accept(new CharacterWriteCommand('Y'));
-        assertThat(vermont.characterAt(xPosition), equalTo("X"));
-        assertThat(vermont.characterAt(yPosition), equalTo("Y"));
+        assertThat(vermont.characterAt(xPosition), equalTo('X'));
+        assertThat(vermont.characterAt(yPosition), equalTo('Y'));
     }
 
     @Test
@@ -102,7 +102,7 @@ public class VermontTest {
         CharacterWriteCommand command = new CharacterWriteCommand('z');
         vermont.home();
         vermont.accept(command);
-        assertThat(vermont.characterAt(CursorPosition.HOME), equalTo(String.valueOf('z')));
+        assertThat(vermont.characterAt(CursorPosition.HOME), equalTo('z'));
     }
 
     @Test
@@ -141,9 +141,9 @@ public class VermontTest {
     public void testClearingLineFromCursorRight() throws Exception {
         VTerminal vermont = new Vermont(4, 4);
         vermont.home();
-        vermont.write("A");
-        vermont.write("B");
-        vermont.write("C");
+        vermont.write('A');
+        vermont.write('B');
+        vermont.write('C');
         vermont.moveCursor(new CursorPosition(0, 1));
         vermont.clearFromCursorToEndOfRow();
         assertThat(vermont.getScreenText(), containsString("A"));
@@ -154,8 +154,7 @@ public class VermontTest {
     @Test
     public void testAccessToTheScreenBuffer() throws Exception {
         vermont.home();
-        vermont.write("X");
-        assertThat(vermont.getScreenBuffer()[0][0], equalTo("X"));
-
+        vermont.write('X');
+        assertThat(vermont.getScreenBuffer()[0][0], equalTo('X'));
     }
 }

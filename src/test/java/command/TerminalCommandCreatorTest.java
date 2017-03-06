@@ -27,35 +27,35 @@ public class TerminalCommandCreatorTest {
     public void testWritingANonEscapeCharacterCreatesAnAddCharacterCommand() throws Exception {
         Optional<? extends TerminalCommand> command = commandCreator.write('S');
         command.ifPresent(terminal);
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo("S"));
+        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('S'));
     }
 
     @Test
     public void testWritingAPartialCommandSequenceGivesANoOpCommand() throws Exception {
         terminal.home();
-        terminal.write("X");
+        terminal.write('X');
 
         Optional<? extends TerminalCommand> command = commandCreator.write(Ascii.ESC);
         command.ifPresent(terminal);
 
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo("X"));
+        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('X'));
     }
 
     @Test
     public void testAddingCharactersAfterStartingACommandSequenceReturnsNoOpCommands() throws Exception {
         terminal.home();
-        terminal.write("X");
+        terminal.write('X');
 
         commandCreator.write(Ascii.ESC).ifPresent(terminal);
         commandCreator.write('[').ifPresent(terminal);
 
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo("X"));
+        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('X'));
     }
 
     @Test
     public void testCompletingCommandSequenceReturnsACommand() throws Exception {
         terminal.home();
-        terminal.write("X");
+        terminal.write('X');
 
         commandCreator.write(Ascii.ESC).ifPresent(terminal);
         commandCreator.write('[').ifPresent(terminal);
@@ -66,14 +66,14 @@ public class TerminalCommandCreatorTest {
 
         commandCreator.write('Y').ifPresent(terminal);
 
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo("X"));
-        assertThat(terminal.characterAt(new CursorPosition(1, 2)), equalTo("Y"));
+        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('X'));
+        assertThat(terminal.characterAt(new CursorPosition(1, 2)), equalTo('Y'));
     }
 
     @Test
     public void testMovingTheCursorInZeroBasedMode() throws Exception {
         terminal.home();
-        terminal.write("X");
+        terminal.write('X');
 
         commandCreator.setMode(TerminalMode.ZERO_BASED);
         commandCreator.write(Ascii.ESC).ifPresent(terminal);
@@ -85,14 +85,14 @@ public class TerminalCommandCreatorTest {
 
         commandCreator.write('Y').ifPresent(terminal);
 
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo("X"));
-        assertThat(terminal.characterAt(new CursorPosition(1, 2)), equalTo("Y"));
+        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('X'));
+        assertThat(terminal.characterAt(new CursorPosition(1, 2)), equalTo('Y'));
     }
 
     @Test
     public void testMovingTheCursorInOnesBasedMode() throws Exception {
         terminal.home();
-        terminal.write("X");
+        terminal.write('X');
 
         commandCreator.setMode(TerminalMode.ONES_BASED);
         commandCreator.write(Ascii.ESC).ifPresent(terminal);
@@ -104,9 +104,9 @@ public class TerminalCommandCreatorTest {
 
         commandCreator.write('Y').ifPresent(terminal);
 
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo("X"));
-        assertThat(terminal.characterAt(new CursorPosition(0, 1)), equalTo("Y"));
-        assertThat(terminal.characterAt(new CursorPosition(1, 2)), equalTo(null));
+        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('X'));
+        assertThat(terminal.characterAt(new CursorPosition(0, 1)), equalTo('Y'));
+        assertThat(terminal.characterAt(new CursorPosition(1, 2)), equalTo(Ascii.MIN));
     }
 
     @Test
@@ -191,8 +191,8 @@ public class TerminalCommandCreatorTest {
             }
         }
         assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo("W"));
+        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('W'));
         commandCreator.write('M').ifPresent(terminal);
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo("M"));
+        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('M'));
     }
 }
