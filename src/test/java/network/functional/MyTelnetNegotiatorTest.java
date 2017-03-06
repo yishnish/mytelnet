@@ -41,19 +41,4 @@ public class MyTelnetNegotiatorTest {
         assertThat("Test connection to telnet server failed. Do you have a server running to connect to?", vermont.getScreenText(), containsString("vagrant@vagrant:"));
     }
 
-    @Test
-    public void testSomething() throws IOException, InterruptedException {
-        TelnetClient telnetClient = new TelnetClient();
-        Vermont vermont = new Vermont();
-        Display display = new Display(vermont.getScreenBuffer(), System.out);
-
-        MyTelnetNegotiator myTelnetNegotiator = new MyTelnetNegotiator(vermont, telnetClient);
-        myTelnetNegotiator.connect(LOCALHOST);
-
-        Thread.sleep(100);
-        myTelnetNegotiator.send(USERNAME);
-        Thread.sleep(100);
-        myTelnetNegotiator.send(PASSWORD);
-
-    }
 }
