@@ -37,7 +37,7 @@ public class MyTelnetNegotiator {
                 int character;
                 try {
                     while ((character = reader.read()) > -1) {
-                        commandCreator.write((char) character).ifPresent(terminal);
+                        commandCreator.write((char) character).call(terminal);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

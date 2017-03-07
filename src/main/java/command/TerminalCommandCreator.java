@@ -5,7 +5,6 @@ import terminal.CursorMoveCommandFactory;
 import terminal.TerminalMode;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class TerminalCommandCreator {
     private boolean buildingCommand = false;
@@ -18,13 +17,13 @@ public class TerminalCommandCreator {
         cursorMoveCommandFactory.setMode(TerminalMode.ZERO_BASED);
     }
 
-    public Optional<? extends TerminalCommand> write(char c) {
+    public TerminalCommand write(char c) {
         if(c == Ascii.ESC) {
             buildingCommand = true;
         } else if(c == Ascii.CR) {
-            return Optional.of(new CarriageReturnCommand());
+            return new CarriageReturnCommand();
         } else if(c == Ascii.LF) {
-            return Optional.of(new NewLineCommand());
+            return new NewLineCommand();
         } else if(dealingWithTwoCharacterIgnorable) {
             command.clear();
             dealingWithTwoCharacterIgnorable = false;
@@ -32,38 +31,38 @@ public class TerminalCommandCreator {
             if(c == 'm') {
                 command.clear();
                 buildingCommand = false;
-                return Optional.of(new NoOpCommand());
+                return new NoOpCommand();
             } else if(c == 'A') {
                 command.clear();
                 buildingCommand = false;
-                return Optional.of(new NoOpCommand());
+                return new NoOpCommand();
             }  else if(c == 'C') {
                 command.clear();
                 buildingCommand = false;
-                return Optional.of(new NoOpCommand());
+                return new NoOpCommand();
             } else if(c == '(' || c == ')') {
                 buildingCommand = false;
                 dealingWithTwoCharacterIgnorable = true;
             } else if(c == 'J') {
                 command.clear();
                 buildingCommand = false;
-                return Optional.of(new ClearFromCursorDownCommand());
+                return new ClearFromCursorDownCommand();
             } else if(c == 'K') {
                 command.clear();
                 buildingCommand = false;
-                return Optional.of(new ClearFromCursorToEndOfRowCommand());
+                return new ClearFromCursorToEndOfRowCommand();
             } else if(c == 'H' || c == 'f') {
                 buildingCommand = false;
-                Optional<? extends TerminalCommand> terminalCommand = Optional.of(cursorMoveCommandFactory.createCommand(command));
+                TerminalCommand terminalCommand = cursorMoveCommandFactory.createCommand(command);
                 command.clear();
                 return terminalCommand;
             } else {
                 command.add(c);
             }
         } else {
-            return Optional.of(new CharacterWriteCommand(c));
+            return new CharacterWriteCommand(c);
         }
-        return Optional.of(new NoOpCommand());
+        return new NoOpCommand();
     }
 
     public void setMode(TerminalMode mode) {
