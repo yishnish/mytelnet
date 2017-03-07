@@ -36,6 +36,7 @@ public class MyTelnetNegotiator {
                 int character;
                 try {
                     while ((character = reader.read()) > -1) {
+                        System.out.println((char)character);
                         terminal.accept(commandCreator.create((char) character));
                     }
                 } catch (IOException e) {
@@ -51,9 +52,14 @@ public class MyTelnetNegotiator {
         negotiatingThread.start();
     }
 
-    public void send(String text) throws IOException {
+    public void sendLine(String text) throws IOException {
         outputStream.write(text.getBytes());
         outputStream.write("\n".getBytes());
+        outputStream.flush();
+    }
+
+    public void send(String text) throws IOException {
+        outputStream.write(text.getBytes());
         outputStream.flush();
     }
 

@@ -35,9 +35,9 @@ public class MyTelnetNegotiatorTest {
         MyTelnetNegotiator myTelnetNegotiator = new MyTelnetNegotiator(vermont, telnetClient, new TerminalCommandCreator());
         myTelnetNegotiator.connect(LOCALHOST);
         Thread.sleep(100);
-        myTelnetNegotiator.send(USERNAME);
+        myTelnetNegotiator.sendLine(USERNAME);
         Thread.sleep(100);
-        myTelnetNegotiator.send(PASSWORD);
+        myTelnetNegotiator.sendLine(PASSWORD);
         Thread.sleep(500);
         assertThat("Test connection to telnet server failed. Do you have a server running to connect to?", vermont.getBufferAsString(), containsString("vagrant@vagrant:"));
     }
