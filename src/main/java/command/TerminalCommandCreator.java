@@ -13,6 +13,7 @@ public class TerminalCommandCreator {
     private static TerminalCommand NEW_LINE = new NewLineCommand();
     private static TerminalCommand CLEAR_CURSOR_DOWN = new ClearFromCursorDownCommand();
     private static TerminalCommand CLEAR_TO_END_OF_ROW = new ClearFromCursorToEndOfRowCommand();
+    private static TerminalCommand BS = new BackSpaceCommand();
 
     private boolean buildingCommand = false;
     private boolean dealingWithTwoCharacterIgnorable;
@@ -27,6 +28,8 @@ public class TerminalCommandCreator {
     public TerminalCommand create(char c) {
         if(c == Ascii.ESC) {
             buildingCommand = true;
+        } else if(c == Ascii.BS) {
+            return BS;
         } else if(c == Ascii.CR) {
             return CR;
         } else if(c == Ascii.LF) {

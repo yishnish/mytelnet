@@ -36,7 +36,7 @@ public class MyTelnetNegotiator {
                 int character;
                 try {
                     while ((character = reader.read()) > -1) {
-                        System.out.println((char)character);
+//                        System.out.println((char)character);
                         terminal.accept(commandCreator.create((char) character));
                     }
                 } catch (IOException e) {
