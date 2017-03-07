@@ -1,5 +1,5 @@
 package terminal;
 
 public interface Display {
-    void display();
+    void display(char[][] buffer);
 }

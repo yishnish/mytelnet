@@ -2,6 +2,7 @@ package command;
 
 import org.junit.Before;
 import org.junit.Test;
+import terminal.BlankDisplay;
 import terminal.CursorPosition;
 import terminal.VTerminal;
 import terminal.Vermont;
@@ -16,7 +17,7 @@ public class ZeroBasedCursorMoveCommandTest {
 
     @Before
     public void setUp() throws Exception {
-        terminal = new Vermont();
+        terminal = new Vermont(new BlankDisplay());
     }
 
     @Test

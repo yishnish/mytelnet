@@ -2,6 +2,7 @@ package command;
 
 import org.junit.Before;
 import org.junit.Test;
+import terminal.BlankDisplay;
 import terminal.CursorPosition;
 import terminal.VTerminal;
 import terminal.Vermont;
@@ -15,7 +16,7 @@ public class ClearFromCursorToEndOfRowCommandTest {
 
     @Before
     public void setUp() throws Exception {
-        terminal = new Vermont(4, 4);
+        terminal = new Vermont(4, 4, new BlankDisplay());
     }
 
     @Test
@@ -29,9 +30,9 @@ public class ClearFromCursorToEndOfRowCommandTest {
         terminal.moveCursor(new CursorPosition(0, 1));
         terminal.accept(new ClearFromCursorToEndOfRowCommand());
 
-        assertThat(terminal.getScreenText(), containsString("A"));
-        assertThat(terminal.getScreenText(), not(containsString("B")));
-        assertThat(terminal.getScreenText(), not(containsString("C")));
-        assertThat(terminal.getScreenText(), containsString("D"));
+        assertThat(terminal.getBufferAsString(), containsString("A"));
+        assertThat(terminal.getBufferAsString(), not(containsString("B")));
+        assertThat(terminal.getBufferAsString(), not(containsString("C")));
+        assertThat(terminal.getBufferAsString(), containsString("D"));
     }
 }

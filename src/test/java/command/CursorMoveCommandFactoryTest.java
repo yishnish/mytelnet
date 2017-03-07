@@ -12,7 +12,7 @@ public class CursorMoveCommandFactoryTest {
 
     @Test
     public void testCreatingCursorMoveCommandsInZeroBasedModeIsZeroBased() throws Exception {
-        VTerminal terminal = new Vermont();
+        VTerminal terminal = new Vermont(new BlankDisplay());
         CursorMoveCommandFactory commandFactory = new CursorMoveCommandFactory();
         commandFactory.setMode(TerminalMode.ZERO_BASED);
         CursorMoveCommand command = commandFactory.createCommand(listOf('[', '1', ';', '1'));
@@ -25,7 +25,7 @@ public class CursorMoveCommandFactoryTest {
 
     @Test
     public void testCreatingCursorMoveCommandsInOnesBasedModeIsOnesBased() throws Exception {
-        VTerminal terminal = new Vermont();
+        VTerminal terminal = new Vermont(new BlankDisplay());
         CursorMoveCommandFactory commandFactory = new CursorMoveCommandFactory();
         commandFactory.setMode(TerminalMode.ONES_BASED);
         CursorMoveCommand command = commandFactory.createCommand(listOf('[', '1', ';', '1'));

@@ -5,6 +5,7 @@ import org.apache.commons.net.telnet.TelnetClient;
 import org.junit.Test;
 import org.mockito.Mockito;
 import terminal.Ascii;
+import terminal.BlankDisplay;
 import terminal.Vermont;
 
 import java.io.*;
@@ -19,7 +20,7 @@ public class MyTelnetNegotiatorTest {
 
     @Test
     public void testWritesToTerminalWhenStreamReceivesData() throws IOException, InterruptedException {
-        Vermont vermont = new Vermont();
+        Vermont vermont = new Vermont(new BlankDisplay());
         MyInputStream inputStream = new MyInputStream();
         Mockito.when(telnetClient.getInputStream()).thenReturn(inputStream);
         MyTelnetNegotiator telnetNegotiator = new MyTelnetNegotiator(vermont, telnetClient, new TerminalCommandCreator());
@@ -29,7 +30,7 @@ public class MyTelnetNegotiatorTest {
 
         waitToMakeAssertion();
 
-        String screenText = vermont.getScreenText();
+        String screenText = vermont.getBufferAsString();
         assertThat(screenText, containsString("hi"));
     }
 

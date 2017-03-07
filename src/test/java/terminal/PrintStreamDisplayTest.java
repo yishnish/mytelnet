@@ -22,9 +22,9 @@ public class PrintStreamDisplayTest {
         PrintStream output = mock(PrintStream.class);
         InOrder inOrder = inOrder(output);
 
-        PrintStreamDisplay display = new PrintStreamDisplay(buffer, output);
+        PrintStreamDisplay display = new PrintStreamDisplay(output);
 
-        display.display();
+        display.display(buffer);
         inOrder.verify(output).println(new String(buffer[0]));
         inOrder.verify(output).println(new String(buffer[1]));
         inOrder.verify(output).println(new String(buffer[2]));

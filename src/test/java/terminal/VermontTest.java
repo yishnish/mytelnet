@@ -20,7 +20,7 @@ public class VermontTest {
 
     @Before
     public void setUp() {
-        vermont = new Vermont();
+        vermont = new Vermont(new BlankDisplay());
     }
 
     @Test
@@ -113,7 +113,7 @@ public class VermontTest {
         vermont.accept(new CharacterWriteCommand(' '));
         vermont.moveCursor(new CursorPosition(10, 12));
         vermont.accept(new CharacterWriteCommand('t'));
-        assertThat(vermont.getScreenText(), containsString("c t"));
+        assertThat(vermont.getBufferAsString(), containsString("c t"));
     }
 
     @Test
@@ -139,16 +139,16 @@ public class VermontTest {
 
     @Test
     public void testClearingLineFromCursorRight() throws Exception {
-        VTerminal vermont = new Vermont(4, 4);
+        VTerminal vermont = new Vermont(4, 4, new BlankDisplay());
         vermont.home();
         vermont.write('A');
         vermont.write('B');
         vermont.write('C');
         vermont.moveCursor(new CursorPosition(0, 1));
         vermont.clearFromCursorToEndOfRow();
-        assertThat(vermont.getScreenText(), containsString("A"));
-        assertThat(vermont.getScreenText(), not(containsString("B")));
-        assertThat(vermont.getScreenText(), not(containsString("C")));
+        assertThat(vermont.getBufferAsString(), containsString("A"));
+        assertThat(vermont.getBufferAsString(), not(containsString("B")));
+        assertThat(vermont.getBufferAsString(), not(containsString("C")));
     }
 
     @Test

@@ -1,6 +1,7 @@
 package command;
 
 import org.junit.Test;
+import terminal.BlankDisplay;
 import terminal.CursorPosition;
 import terminal.Vermont;
 
@@ -11,7 +12,7 @@ public class CharacterWriteCommandTest {
 
     @Test
     public void testCommandsTerminalToWriteACharacter() throws Exception {
-        Vermont terminal = new Vermont();
+        Vermont terminal = new Vermont(new BlankDisplay());
         terminal.home();
         CharacterWriteCommand command = new CharacterWriteCommand('L');
 

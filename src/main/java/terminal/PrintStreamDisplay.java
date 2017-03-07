@@ -4,19 +4,17 @@ import java.io.PrintStream;
 
 public class PrintStreamDisplay implements Display {
 
-    private char[][] buffer;
     private PrintStream stream;
 
-    public PrintStreamDisplay(char[][] buffer, PrintStream outputStream) {
-        this.buffer = buffer;
+    public PrintStreamDisplay(PrintStream outputStream) {
         this.stream = outputStream;
     }
 
-    public void display() {
-        writeBufferRowsToScreen();
+    public void display(char[][] buffer) {
+        writeBufferRowsToScreen(buffer);
     }
 
-    private void writeBufferRowsToScreen() {
+    private void writeBufferRowsToScreen(char[][] buffer) {
         for (char[] row : buffer) {
             String s = new String(row);
             stream.println(s);

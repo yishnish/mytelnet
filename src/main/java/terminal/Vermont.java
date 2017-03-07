@@ -6,19 +6,21 @@ import java.util.function.Consumer;
 
 public class Vermont implements VTerminal, Consumer<TerminalCommand> {
 
+    private final Display display;
     private int height;
     private int width;
     private char[][] screen;
     private CursorPosition cursorPosition = new CursorPosition(0, 0);
 
-    public Vermont() {
-        this(24, 80);
+    public Vermont(Display display) {
+        this(24, 80, display);
     }
 
-    public Vermont(int height, int width) {
+    public Vermont(int height, int width, Display display) {
         this.height = height;
         this.width = width;
         this.screen = new char[height][width];
+        this.display = display;
     }
 
     public int getHeight() {
@@ -96,7 +98,7 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
         return screen[position.getRow()][position.getCol()];
     }
 
-    public String getScreenText() {
+    public String getBufferAsString() {
         StringBuilder sb = new StringBuilder();
         for (char[] row : screen) {
             for (char character : row) {

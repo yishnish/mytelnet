@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import terminal.*;
 
-import java.util.Optional;
-
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
@@ -20,7 +18,7 @@ public class TerminalCommandCreatorTest {
     @Before
     public void setUp() throws Exception {
         commandCreator = new TerminalCommandCreator();
-        terminal = new Vermont();
+        terminal = new Vermont(new BlankDisplay());
     }
 
     @Test
@@ -125,7 +123,7 @@ public class TerminalCommandCreatorTest {
 
     @Test
     public void testClearingFromCursorDown() throws Exception {
-        VTerminal terminal = new Vermont(4, 4);
+        VTerminal terminal = new Vermont(4, 4, new BlankDisplay());
         terminal.home();
         commandCreator.write('A').call(terminal);
         commandCreator.write('B').call(terminal);
@@ -139,15 +137,15 @@ public class TerminalCommandCreatorTest {
             commandCreator.write(c).call(terminal);
         }
 
-        assertThat(terminal.getScreenText(), containsString("A"));
-        assertThat(terminal.getScreenText(), containsString("B"));
-        assertThat(terminal.getScreenText(), not(containsString("C")));
-        assertThat(terminal.getScreenText(), not(containsString("D")));
+        assertThat(terminal.getBufferAsString(), containsString("A"));
+        assertThat(terminal.getBufferAsString(), containsString("B"));
+        assertThat(terminal.getBufferAsString(), not(containsString("C")));
+        assertThat(terminal.getBufferAsString(), not(containsString("D")));
     }
 
     @Test
     public void testClearingFromCursorToEndOfRow() throws Exception {
-        VTerminal terminal = new Vermont(4, 4);
+        VTerminal terminal = new Vermont(4, 4, new BlankDisplay());
         terminal.home();
         commandCreator.write('A').call(terminal);
         commandCreator.write('B').call(terminal);
@@ -160,10 +158,10 @@ public class TerminalCommandCreatorTest {
         for (char c : clearRightSequence) {
             commandCreator.write(c).call(terminal);
         }
-        assertThat(terminal.getScreenText(), containsString("A"));
-        assertThat(terminal.getScreenText(), not(containsString("B")));
-        assertThat(terminal.getScreenText(), not(containsString("C")));
-        assertThat(terminal.getScreenText(), containsString("D"));
+        assertThat(terminal.getBufferAsString(), containsString("A"));
+        assertThat(terminal.getBufferAsString(), not(containsString("B")));
+        assertThat(terminal.getBufferAsString(), not(containsString("C")));
+        assertThat(terminal.getBufferAsString(), containsString("D"));
     }
 
     @Test

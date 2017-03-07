@@ -17,7 +17,7 @@ public interface VTerminal extends Consumer<TerminalCommand>{
 
     char characterAt(CursorPosition position);
 
-    String getScreenText();
+    String getBufferAsString();
 
     void accept(TerminalCommand command);
 
