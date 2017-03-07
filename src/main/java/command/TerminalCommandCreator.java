@@ -7,6 +7,13 @@ import terminal.TerminalMode;
 import java.util.ArrayList;
 
 public class TerminalCommandCreator {
+
+    private static TerminalCommand NOOP = new NoOpCommand();
+    private static TerminalCommand CR = new CarriageReturnCommand();
+    private static TerminalCommand NEW_LINE = new NewLineCommand();
+    private static TerminalCommand CLEAR_CURSOR_DOWN = new ClearFromCursorDownCommand();
+    private static TerminalCommand CLEAR_TO_END_OF_ROW = new ClearFromCursorToEndOfRowCommand();
+
     private boolean buildingCommand = false;
     private boolean dealingWithTwoCharacterIgnorable;
     private ArrayList<Character> command = new ArrayList<Character>();
@@ -21,9 +28,9 @@ public class TerminalCommandCreator {
         if(c == Ascii.ESC) {
             buildingCommand = true;
         } else if(c == Ascii.CR) {
-            return new CarriageReturnCommand();
+            return CR;
         } else if(c == Ascii.LF) {
-            return new NewLineCommand();
+            return NEW_LINE;
         } else if(dealingWithTwoCharacterIgnorable) {
             command.clear();
             dealingWithTwoCharacterIgnorable = false;
@@ -31,26 +38,26 @@ public class TerminalCommandCreator {
             if(c == 'm') {
                 command.clear();
                 buildingCommand = false;
-                return new NoOpCommand();
+                return NOOP;
             } else if(c == 'A') {
                 command.clear();
                 buildingCommand = false;
-                return new NoOpCommand();
+                return NOOP;
             }  else if(c == 'C') {
                 command.clear();
                 buildingCommand = false;
-                return new NoOpCommand();
+                return NOOP;
             } else if(c == '(' || c == ')') {
                 buildingCommand = false;
                 dealingWithTwoCharacterIgnorable = true;
             } else if(c == 'J') {
                 command.clear();
                 buildingCommand = false;
-                return new ClearFromCursorDownCommand();
+                return CLEAR_CURSOR_DOWN;
             } else if(c == 'K') {
                 command.clear();
                 buildingCommand = false;
-                return new ClearFromCursorToEndOfRowCommand();
+                return CLEAR_TO_END_OF_ROW;
             } else if(c == 'H' || c == 'f') {
                 buildingCommand = false;
                 TerminalCommand terminalCommand = cursorMoveCommandFactory.createCommand(command);
@@ -62,7 +69,7 @@ public class TerminalCommandCreator {
         } else {
             return new CharacterWriteCommand(c);
         }
-        return new NoOpCommand();
+        return NOOP;
     }
 
     public void setMode(TerminalMode mode) {
