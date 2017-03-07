@@ -14,14 +14,7 @@ public class Display {
     }
 
     public void display() throws IOException {
-        clearScreen();
         writeBufferRowsToScreen();
-    }
-
-    private void clearScreen() {
-        for (int i = 0; i < buffer.length; i++) {
-            stream.println();
-        }
     }
 
     private void writeBufferRowsToScreen() {
