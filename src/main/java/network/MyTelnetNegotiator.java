@@ -3,6 +3,7 @@ package network;
 import command.TerminalCommandCreator;
 import org.apache.commons.net.telnet.TelnetClient;
 import terminal.CursorPosition;
+import terminal.TerminalMode;
 import terminal.VTerminal;
 
 import java.io.*;
@@ -15,10 +16,10 @@ public class MyTelnetNegotiator {
     private OutputStream outputStream;
     private TerminalCommandCreator commandCreator;
 
-    public MyTelnetNegotiator(VTerminal terminal, TelnetClient telnetClient) {
+    public MyTelnetNegotiator(VTerminal terminal, TelnetClient telnetClient, TerminalCommandCreator commandCreator) {
         this.terminal = terminal;
         this.telnetClient = telnetClient;
-        commandCreator = new TerminalCommandCreator();
+        this.commandCreator = commandCreator;
     }
 
     public void connect(String host) throws IOException {
@@ -36,7 +37,6 @@ public class MyTelnetNegotiator {
                 int character;
                 try {
                     while ((character = reader.read()) > -1) {
-                        System.out.println((char) character);
                         commandCreator.write((char) character).ifPresent(terminal);
                     }
                 } catch (IOException e) {

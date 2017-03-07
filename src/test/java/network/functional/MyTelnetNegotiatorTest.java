@@ -1,5 +1,6 @@
 package network.functional;
 
+import command.TerminalCommandCreator;
 import network.MyTelnetNegotiator;
 import org.apache.commons.net.telnet.TelnetClient;
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class MyTelnetNegotiatorTest {
     public void testConnectingToLocalServer() throws IOException, InterruptedException {
         TelnetClient telnetClient = new TelnetClient();
         Vermont vermont = new Vermont();
-        MyTelnetNegotiator myTelnetNegotiator = new MyTelnetNegotiator(vermont, telnetClient);
+        MyTelnetNegotiator myTelnetNegotiator = new MyTelnetNegotiator(vermont, telnetClient, new TerminalCommandCreator());
         myTelnetNegotiator.connect("localhost");
         Thread.sleep(100);
         assertThat("Test connection to telnet server failed. Do you have a server running to connect to?", vermont.getScreenText(), containsString("login:"));
@@ -31,7 +32,7 @@ public class MyTelnetNegotiatorTest {
     public void testSendingMessagesToLocalServer() throws IOException, InterruptedException {
         TelnetClient telnetClient = new TelnetClient();
         Vermont vermont = new Vermont();
-        MyTelnetNegotiator myTelnetNegotiator = new MyTelnetNegotiator(vermont, telnetClient);
+        MyTelnetNegotiator myTelnetNegotiator = new MyTelnetNegotiator(vermont, telnetClient, new TerminalCommandCreator());
         myTelnetNegotiator.connect(LOCALHOST);
         Thread.sleep(100);
         myTelnetNegotiator.send(USERNAME);
