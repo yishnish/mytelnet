@@ -1,15 +1,20 @@
 package terminal;
 
+import command.CarriageReturnCommand;
 import command.CharacterWriteCommand;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.io.IOException;
+
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class VermontTest {
 
@@ -156,5 +161,14 @@ public class VermontTest {
         vermont.home();
         vermont.write('X');
         assertThat(vermont.getScreenBuffer()[0][0], equalTo('X'));
+    }
+
+
+    @Test
+    public void testDisplayIsNotifiedWhenAcceptingTerminalCommand() throws IOException {
+        Display display = mock(Display.class);
+        Vermont vermont = new Vermont(display);
+        vermont.accept(new CarriageReturnCommand());
+        verify(display).display(vermont.getScreenBuffer());
     }
 }

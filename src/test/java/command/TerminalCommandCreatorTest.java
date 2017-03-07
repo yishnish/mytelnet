@@ -23,7 +23,7 @@ public class TerminalCommandCreatorTest {
 
     @Test
     public void testWritingANonEscapeCharacterCreatesAnAddCharacterCommand() throws Exception {
-        TerminalCommand command = commandCreator.write('S');
+        TerminalCommand command = commandCreator.create('S');
         command.call(terminal);
         assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('S'));
     }
@@ -33,7 +33,7 @@ public class TerminalCommandCreatorTest {
         terminal.home();
         terminal.write('X');
 
-        TerminalCommand command = commandCreator.write(Ascii.ESC);
+        TerminalCommand command = commandCreator.create(Ascii.ESC);
         command.call(terminal);
 
         assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('X'));
@@ -44,8 +44,8 @@ public class TerminalCommandCreatorTest {
         terminal.home();
         terminal.write('X');
 
-        commandCreator.write(Ascii.ESC).call(terminal);
-        commandCreator.write('[').call(terminal);
+        commandCreator.create(Ascii.ESC).call(terminal);
+        commandCreator.create('[').call(terminal);
 
         assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('X'));
     }
@@ -55,14 +55,14 @@ public class TerminalCommandCreatorTest {
         terminal.home();
         terminal.write('X');
 
-        commandCreator.write(Ascii.ESC).call(terminal);
-        commandCreator.write('[').call(terminal);
-        commandCreator.write('1').call(terminal);
-        commandCreator.write(';').call(terminal);
-        commandCreator.write('2').call(terminal);
-        commandCreator.write('H').call(terminal);
+        commandCreator.create(Ascii.ESC).call(terminal);
+        commandCreator.create('[').call(terminal);
+        commandCreator.create('1').call(terminal);
+        commandCreator.create(';').call(terminal);
+        commandCreator.create('2').call(terminal);
+        commandCreator.create('H').call(terminal);
 
-        commandCreator.write('Y').call(terminal);
+        commandCreator.create('Y').call(terminal);
 
         assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('X'));
         assertThat(terminal.characterAt(new CursorPosition(1, 2)), equalTo('Y'));
@@ -74,14 +74,14 @@ public class TerminalCommandCreatorTest {
         terminal.write('X');
 
         commandCreator.setMode(TerminalMode.ZERO_BASED);
-        commandCreator.write(Ascii.ESC).call(terminal);
-        commandCreator.write('[').call(terminal);
-        commandCreator.write('1').call(terminal);
-        commandCreator.write(';').call(terminal);
-        commandCreator.write('2').call(terminal);
-        commandCreator.write('H').call(terminal);
+        commandCreator.create(Ascii.ESC).call(terminal);
+        commandCreator.create('[').call(terminal);
+        commandCreator.create('1').call(terminal);
+        commandCreator.create(';').call(terminal);
+        commandCreator.create('2').call(terminal);
+        commandCreator.create('H').call(terminal);
 
-        commandCreator.write('Y').call(terminal);
+        commandCreator.create('Y').call(terminal);
 
         assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('X'));
         assertThat(terminal.characterAt(new CursorPosition(1, 2)), equalTo('Y'));
@@ -93,14 +93,14 @@ public class TerminalCommandCreatorTest {
         terminal.write('X');
 
         commandCreator.setMode(TerminalMode.ONES_BASED);
-        commandCreator.write(Ascii.ESC).call(terminal);
-        commandCreator.write('[').call(terminal);
-        commandCreator.write('1').call(terminal);
-        commandCreator.write(';').call(terminal);
-        commandCreator.write('2').call(terminal);
-        commandCreator.write('H').call(terminal);
+        commandCreator.create(Ascii.ESC).call(terminal);
+        commandCreator.create('[').call(terminal);
+        commandCreator.create('1').call(terminal);
+        commandCreator.create(';').call(terminal);
+        commandCreator.create('2').call(terminal);
+        commandCreator.create('H').call(terminal);
 
-        commandCreator.write('Y').call(terminal);
+        commandCreator.create('Y').call(terminal);
 
         assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('X'));
         assertThat(terminal.characterAt(new CursorPosition(0, 1)), equalTo('Y'));
@@ -110,14 +110,14 @@ public class TerminalCommandCreatorTest {
     @Test
     public void testCarriageReturn() throws Exception {
         terminal.moveCursor(new CursorPosition(3, 4));
-        commandCreator.write(Ascii.CR).call(terminal);
+        commandCreator.create(Ascii.CR).call(terminal);
         assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(3, 0)));
     }
 
     @Test
     public void testNewLine() throws Exception {
         terminal.moveCursor(new CursorPosition(3, 4));
-        commandCreator.write(Ascii.LF).call(terminal);
+        commandCreator.create(Ascii.LF).call(terminal);
         assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(4, 4)));
     }
 
@@ -125,16 +125,16 @@ public class TerminalCommandCreatorTest {
     public void testClearingFromCursorDown() throws Exception {
         VTerminal terminal = new Vermont(4, 4, new BlankDisplay());
         terminal.home();
-        commandCreator.write('A').call(terminal);
-        commandCreator.write('B').call(terminal);
-        commandCreator.write('C').call(terminal);
+        commandCreator.create('A').call(terminal);
+        commandCreator.create('B').call(terminal);
+        commandCreator.create('C').call(terminal);
         terminal.moveCursor(new CursorPosition(1, 2));
-        commandCreator.write('D').call(terminal);
+        commandCreator.create('D').call(terminal);
         terminal.moveCursor(new CursorPosition(0, 2));
 
         char[] clearFromCursorDown = {Ascii.ESC, '[', 'J'};
         for (char c : clearFromCursorDown) {
-            commandCreator.write(c).call(terminal);
+            commandCreator.create(c).call(terminal);
         }
 
         assertThat(terminal.getBufferAsString(), containsString("A"));
@@ -147,16 +147,16 @@ public class TerminalCommandCreatorTest {
     public void testClearingFromCursorToEndOfRow() throws Exception {
         VTerminal terminal = new Vermont(4, 4, new BlankDisplay());
         terminal.home();
-        commandCreator.write('A').call(terminal);
-        commandCreator.write('B').call(terminal);
-        commandCreator.write('C').call(terminal);
+        commandCreator.create('A').call(terminal);
+        commandCreator.create('B').call(terminal);
+        commandCreator.create('C').call(terminal);
         terminal.moveCursor(new CursorPosition(1, 0));
-        commandCreator.write('D').call(terminal);
+        commandCreator.create('D').call(terminal);
         terminal.moveCursor(new CursorPosition(0, 1));
 
         char[] clearRightSequence = {Ascii.ESC, '[', 'K'};
         for (char c : clearRightSequence) {
-            commandCreator.write(c).call(terminal);
+            commandCreator.create(c).call(terminal);
         }
         assertThat(terminal.getBufferAsString(), containsString("A"));
         assertThat(terminal.getBufferAsString(), not(containsString("B")));
@@ -174,7 +174,7 @@ public class TerminalCommandCreatorTest {
         screen.
          */
         terminal.home();
-        commandCreator.write('W').call(terminal);
+        commandCreator.create('W').call(terminal);
         terminal.home();
         char[][] ignorables = {
                 {Ascii.ESC, '(', 'B'},
@@ -185,12 +185,12 @@ public class TerminalCommandCreatorTest {
         };
         for (char[] ignorable : ignorables) {
             for (char c : ignorable) {
-                commandCreator.write(c).call(terminal);
+                commandCreator.create(c).call(terminal);
             }
         }
         assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
         assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('W'));
-        commandCreator.write('M').call(terminal);
+        commandCreator.create('M').call(terminal);
         assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('M'));
     }
 }

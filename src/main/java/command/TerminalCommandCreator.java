@@ -24,7 +24,7 @@ public class TerminalCommandCreator {
         cursorMoveCommandFactory.setMode(TerminalMode.ZERO_BASED);
     }
 
-    public TerminalCommand write(char c) {
+    public TerminalCommand create(char c) {
         if(c == Ascii.ESC) {
             buildingCommand = true;
         } else if(c == Ascii.CR) {

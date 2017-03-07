@@ -33,6 +33,7 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
 
     public void accept(TerminalCommand command) {
         command.call(this);
+        this.display.display(screen);
     }
 
     public void write(char character) {
