@@ -8,7 +8,7 @@ import java.io.PrintStream;
 
 import static org.mockito.Mockito.*;
 
-public class DisplayTest {
+public class PrintStreamDisplayTest {
 
     @Test
     public void testCreatingADisplayFromABufferDrawsFromTopToBottom() throws IOException {
@@ -22,7 +22,7 @@ public class DisplayTest {
         PrintStream output = mock(PrintStream.class);
         InOrder inOrder = inOrder(output);
 
-        Display display = new Display(buffer, output);
+        PrintStreamDisplay display = new PrintStreamDisplay(buffer, output);
 
         display.display();
         inOrder.verify(output).println(new String(buffer[0]));
