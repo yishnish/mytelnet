@@ -22,7 +22,7 @@ public class ZeroBasedCursorMoveCommandTest {
 
     @Test
     public void testCreatingCommandFromCharacters() throws Exception {
-        assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
+        terminal.home();
         ZeroBasedCursorMoveCommand command = new ZeroBasedCursorMoveCommand(listOf('[', '1', ';', '3'));
         terminal.accept(command);
 
@@ -31,7 +31,7 @@ public class ZeroBasedCursorMoveCommandTest {
 
     @Test
     public void testMoveHomeWithSemicolon() throws Exception {
-        terminal.home();
+        terminal.moveCursor(new CursorPosition(1, 1));
         ZeroBasedCursorMoveCommand commandHSemi = new ZeroBasedCursorMoveCommand(listOf('[', ';', 'H'));
         terminal.accept(commandHSemi);
         assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
@@ -39,7 +39,7 @@ public class ZeroBasedCursorMoveCommandTest {
 
     @Test
     public void testMoveCommandWithoutSemicolon() throws Exception {
-        terminal.home();
+        terminal.moveCursor(new CursorPosition(1, 1));
         ZeroBasedCursorMoveCommand commandHSemi = new ZeroBasedCursorMoveCommand(listOf('[', 'H'));
         terminal.accept(commandHSemi);
         assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
