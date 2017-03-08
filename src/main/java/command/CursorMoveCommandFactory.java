@@ -1,8 +1,6 @@
-package terminal;
+package command;
 
-import command.CursorMoveCommand;
-import command.OnesBasedCursorMoveCommand;
-import command.ZeroBasedCursorMoveCommand;
+import terminal.TerminalMode;
 
 import java.util.ArrayList;
 

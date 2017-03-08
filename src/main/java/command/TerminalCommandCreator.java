@@ -1,7 +1,6 @@
 package command;
 
 import terminal.Ascii;
-import terminal.CursorMoveCommandFactory;
 import terminal.TerminalMode;
 
 import java.util.ArrayList;
