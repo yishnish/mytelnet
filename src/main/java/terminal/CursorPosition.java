@@ -42,4 +42,8 @@ public class CursorPosition {
     public CursorPosition toTheLeft() {
         return new CursorPosition(this.row, Math.max(this.col - 1, 0));
     }
+
+    public CursorPosition upOne() {
+        return new CursorPosition(Math.max(0, this.row - 1), this.col);
+    }
 }

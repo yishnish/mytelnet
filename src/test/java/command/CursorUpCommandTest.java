@@ -1,7 +1,6 @@
 package command;
 
 import org.junit.Test;
-import terminal.Ascii;
 import terminal.BlankDisplay;
 import terminal.CursorPosition;
 import terminal.Vermont;
@@ -9,25 +8,25 @@ import terminal.Vermont;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class BackSpaceCommandTest {
+public class CursorUpCommandTest {
 
     @Test
-    public void testMovingTheCursorLeftOneSpot() throws Exception {
+    public void testMovingTheCursorUp() throws Exception {
         Vermont terminal = new Vermont(new BlankDisplay());
-        terminal.moveCursor(new CursorPosition(0, 1));
+        terminal.moveCursor(new CursorPosition(1, 0));
 
-        BackSpaceCommand command = new BackSpaceCommand();
+        CursorUpCommand command = new CursorUpCommand();
         command.call(terminal);
         
         assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
     }
 
     @Test
-    public void testMovingTheCursorLeftOneSpotDoesNothingIfAlreadyAllTheWayLeft() throws Exception {
+    public void testMovingTheCursorUpDoesNothingIfAlreadyAtTheTopOfTheScreen() throws Exception {
         Vermont terminal = new Vermont(new BlankDisplay());
         terminal.home();
 
-        BackSpaceCommand command = new BackSpaceCommand();
+        CursorUpCommand command = new CursorUpCommand();
         command.call(terminal);
 
         assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));

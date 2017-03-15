@@ -165,6 +165,27 @@ public class TerminalCommandCreatorTest {
     }
 
     @Test
+    public void testCreatingBackspaceCommand(){
+        terminal.moveCursor(new CursorPosition(0, 1));
+
+        commandCreator.create(Ascii.BS).call(terminal);
+
+        assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
+    }
+
+    @Test
+    public void testCreatingCursorUpCommand(){
+        terminal.moveCursor(new CursorPosition(1, 1));
+
+        char[] cursorUpSequence = {Ascii.ESC, '[', 'A'};
+        for (char c : cursorUpSequence) {
+            commandCreator.create(c).call(terminal);
+        }
+
+        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(0, 1)));
+    }
+
+    @Test
     public void testIgnoringBoringCommands() {
         /*
         An explanation: move the cursor to a known position. Write a character. Move back to known position (because we
@@ -181,7 +202,6 @@ public class TerminalCommandCreatorTest {
                 {Ascii.ESC, ')', '0'},
                 {Ascii.ESC, '[', '7', 'm'},
                 {Ascii.ESC, '[', 'C'},
-                {Ascii.ESC, '[', 'A'},
         };
         for (char[] ignorable : ignorables) {
             for (char c : ignorable) {

@@ -26,4 +26,22 @@ public class CursorPositionTest {
         assertThat(toTheLeft.getCol(), equalTo(0));
     }
 
+    @Test
+    public void testGettingCursorPositionDirectlyAbove() {
+        CursorPosition cursorPosition = new CursorPosition(1, 1);
+        CursorPosition upOne = cursorPosition.upOne();
+
+        assertThat(upOne.getRow(), equalTo(cursorPosition.getRow() -1));
+        assertThat(upOne.getCol(), equalTo(cursorPosition.getCol()));
+    }
+
+    @Test
+    public void testGettingCursorPositionAboveGivesSameColumnIfAlreadyAsFarUpAsYouCanGo() {
+        CursorPosition originalPosition = new CursorPosition(0, 0);
+        CursorPosition toTheLeft = originalPosition.upOne();
+
+        assertThat(toTheLeft.getRow(), equalTo(originalPosition.getRow()));
+        assertThat(toTheLeft.getCol(), equalTo(0));
+    }
+
 }
