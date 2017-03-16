@@ -43,6 +43,10 @@ public class CursorPosition {
         return new CursorPosition(this.row, this.col - 1);
     }
 
+    public CursorPosition toTheRight() {
+        return new CursorPosition(this.row, this.col + 1);
+    }
+
     public CursorPosition upOne() {
         return new CursorPosition(this.row - 1, this.col);
     }

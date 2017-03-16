@@ -174,6 +174,18 @@ public class TerminalCommandCreatorTest {
     }
 
     @Test
+    public void testCreatingCursorRightCommand(){
+        terminal.moveCursor(new CursorPosition(1, 1));
+
+        char[] cursorUpSequence = {Ascii.ESC, '[', 'C'};
+        for (char c : cursorUpSequence) {
+            commandCreator.create(c).call(terminal);
+        }
+
+        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(1, 2)));
+    }
+
+    @Test
     public void testCreatingCursorUpCommand(){
         terminal.moveCursor(new CursorPosition(1, 1));
 
@@ -212,7 +224,6 @@ public class TerminalCommandCreatorTest {
         char[][] ignorables = {
                 {Ascii.ESC, ')', '0'},
                 {Ascii.ESC, '[', '7', 'm'},
-                {Ascii.ESC, '[', 'C'},
         };
         for (char[] ignorable : ignorables) {
             for (char c : ignorable) {

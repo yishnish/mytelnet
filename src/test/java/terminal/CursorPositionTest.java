@@ -22,8 +22,16 @@ public class CursorPositionTest {
         CursorPosition cursorPosition = new CursorPosition(1, 1);
         CursorPosition upOne = cursorPosition.upOne();
 
-        assertThat(upOne.getRow(), equalTo(cursorPosition.getRow() -1));
+        assertThat(upOne.getRow(), equalTo(cursorPosition.getRow() - 1));
         assertThat(upOne.getCol(), equalTo(cursorPosition.getCol()));
     }
 
+    @Test
+    public void testGettingCursorPositionToTheRight() {
+        CursorPosition cursorPosition = new CursorPosition(1, 1);
+        CursorPosition toTheRight = cursorPosition.toTheRight();
+
+        assertThat(toTheRight.getCol(), equalTo(cursorPosition.getCol() + 1));
+        assertThat(toTheRight.getRow(), equalTo(cursorPosition.getRow()));
+    }
 }
