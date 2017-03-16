@@ -22,14 +22,4 @@ public class BackSpaceCommandTest {
         assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
     }
 
-    @Test
-    public void testMovingTheCursorLeftOneSpotDoesNothingIfAlreadyAllTheWayLeft() throws Exception {
-        Vermont terminal = new Vermont(new BlankDisplay());
-        terminal.home();
-
-        BackSpaceCommand command = new BackSpaceCommand();
-        command.call(terminal);
-
-        assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
-    }
 }

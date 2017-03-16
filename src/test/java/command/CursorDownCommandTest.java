@@ -8,16 +8,17 @@ import terminal.Vermont;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class CursorUpCommandTest {
+public class CursorDownCommandTest {
 
     @Test
-    public void testMovingTheCursorUp() throws Exception {
+    public void testMovingTheCursorDown() throws Exception {
         Vermont terminal = new Vermont(new BlankDisplay());
-        terminal.moveCursor(new CursorPosition(1, 0));
+        terminal.home();
 
-        CursorUpCommand command = new CursorUpCommand();
+        CursorDownCommand command = new CursorDownCommand();
         command.call(terminal);
         
-        assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
+        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(1, 0)));
     }
+
 }

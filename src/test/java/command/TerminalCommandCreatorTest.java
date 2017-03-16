@@ -186,6 +186,18 @@ public class TerminalCommandCreatorTest {
     }
 
     @Test
+    public void testCreatingCursorDownCommand(){
+        terminal.moveCursor(new CursorPosition(1, 1));
+
+        char[] cursorUpSequence = {Ascii.ESC, '[', 'B'};
+        for (char c : cursorUpSequence) {
+            commandCreator.create(c).call(terminal);
+        }
+
+        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(2, 1)));
+    }
+
+    @Test
     public void testIgnoringBoringCommands() {
         /*
         An explanation: move the cursor to a known position. Write a character. Move back to known position (because we
@@ -198,7 +210,6 @@ public class TerminalCommandCreatorTest {
         commandCreator.create('W').call(terminal);
         terminal.home();
         char[][] ignorables = {
-                {Ascii.ESC, '(', 'B'},
                 {Ascii.ESC, ')', '0'},
                 {Ascii.ESC, '[', '7', 'm'},
                 {Ascii.ESC, '[', 'C'},

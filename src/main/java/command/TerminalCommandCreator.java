@@ -14,6 +14,7 @@ public class TerminalCommandCreator {
     private static TerminalCommand CLEAR_TO_END_OF_ROW = new ClearFromCursorToEndOfRowCommand();
     private static TerminalCommand BS = new BackSpaceCommand();
     private static TerminalCommand CURSOR_UP = new CursorUpCommand();
+    private static TerminalCommand CURSOR_DOWN = new CursorDownCommand();
 
     private boolean buildingCoordinatesMoveCommand = false;
     private boolean dealingWithTwoCharacterIgnorable;
@@ -40,6 +41,10 @@ public class TerminalCommandCreator {
                 command.clear();
                 buildingCoordinatesMoveCommand = false;
                 return CURSOR_UP;
+            } else if(c == 'B') {
+                command.clear();
+                buildingCoordinatesMoveCommand = false;
+                return CURSOR_DOWN;
             }  else if(c == 'C') {
                 command.clear();
                 buildingCoordinatesMoveCommand = false;

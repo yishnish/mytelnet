@@ -40,10 +40,14 @@ public class CursorPosition {
     }
 
     public CursorPosition toTheLeft() {
-        return new CursorPosition(this.row, Math.max(this.col - 1, 0));
+        return new CursorPosition(this.row, this.col - 1);
     }
 
     public CursorPosition upOne() {
-        return new CursorPosition(Math.max(0, this.row - 1), this.col);
+        return new CursorPosition(this.row - 1, this.col);
+    }
+
+    public CursorPosition downOne() {
+        return new CursorPosition(this.row + 1, this.col);
     }
 }
