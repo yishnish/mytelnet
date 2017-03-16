@@ -1,6 +1,7 @@
 package terminal;
 
 import java.io.PrintStream;
+import java.util.Arrays;
 
 public class PrintStreamDisplay implements Display {
 
@@ -16,8 +17,19 @@ public class PrintStreamDisplay implements Display {
 
     private void writeBufferRowsToScreen(char[][] buffer) {
         for (char[] row : buffer) {
-            String s = new String(row);
+            char[] copy = replaceNullWIthSpace(row);
+            String s = new String(copy);
             stream.println(s);
         }
+    }
+
+    private char[] replaceNullWIthSpace(char[] row) {
+        char[] copy = Arrays.copyOf(row, row.length);
+        for (int i = 0; i < copy.length; i++) {
+            if (copy[i] == Ascii.MIN) {
+                copy[i] = Ascii.SPACE;
+            }
+        }
+        return copy;
     }
 }
