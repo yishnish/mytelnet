@@ -1,4 +1,4 @@
-https://travis-ci.org/yishnish/mytelnet.svg?branch=master
+[![Build Status](https://travis-ci.org/yishnish/mytelnet.svg?branch=master)](https://travis-ci.org/yishnish/mytelnet)
 
 Hi!
 
@@ -17,16 +17,7 @@ to install and start a telnet server if those fail.
 
 For example, connecting to a local telnet server and playing some nethack:
 
-import command.TerminalCommandCreator;
-import network.MyTelnetNegotiator;
-import org.apache.commons.net.telnet.TelnetClient;
-import terminal.Ascii;
-import terminal.PrintStreamDisplay;
-import terminal.TerminalMode;
-import terminal.Vermont;
-
-import java.io.*;
-
+```java
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -56,3 +47,4 @@ public class Main {
         }
     }
 }
+```

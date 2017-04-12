@@ -26,7 +26,7 @@ public class MyTelnetNegotiator {
         start();
     }
 
-    public void start() {
+    private void start() {
         Thread negotiatingThread = new Thread(new Runnable() {
             public void run() {
                 terminal.moveCursor(new CursorPosition(0, 0));
@@ -36,7 +36,6 @@ public class MyTelnetNegotiator {
                 int character;
                 try {
                     while ((character = reader.read()) > -1) {
-//                        System.out.println((char)character);
                         terminal.accept(commandCreator.create((char) character));
                     }
                 } catch (IOException e) {
