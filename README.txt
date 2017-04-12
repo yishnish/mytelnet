@@ -1,3 +1,5 @@
+https://travis-ci.org/yishnish/mytelnet.svg?branch=master
+
 Hi!
 
 Use a MyTelnetNegotiator along with a TelnetConnection and a VTerminal to send and display messages to and from
