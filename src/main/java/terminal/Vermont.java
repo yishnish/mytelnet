@@ -7,20 +7,27 @@ import java.util.function.Consumer;
 public class Vermont implements VTerminal, Consumer<TerminalCommand> {
 
     private final Display display;
+    private final TimePiece timePiece;
+    private long lastUpdated = 0;
     private int height;
     private int width;
     private char[][] screen;
     private CursorPosition cursorPosition = new CursorPosition(0, 0);
 
     public Vermont(Display display) {
-        this(24, 80, display);
+        this(24, 80, display, new UTCTimePiece());
     }
 
     public Vermont(int height, int width, Display display) {
+        this(height, width, display, new UTCTimePiece());
+    }
+
+    public Vermont(int height, int width, Display display, TimePiece timePiece) {
         this.height = height;
         this.width = width;
         this.screen = new char[height][width];
         this.display = display;
+        this.timePiece = timePiece;
     }
 
     public int getHeight() {
@@ -33,6 +40,7 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
 
     public void accept(TerminalCommand command) {
         command.call(this);
+        this.lastUpdated = this.timePiece.getTimeMillis();
         this.display.display(screen);
     }
 
@@ -119,6 +127,10 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
         if(col >= this.getWidth() || col < 0) {
             throw new ScreenAccessOutOfBoundsException("Column out of bounds: column was " + col + " and width is " + this.getWidth());
         }
+    }
+
+    public long getLastUpdateTime() {
+        return lastUpdated;
     }
 }
 

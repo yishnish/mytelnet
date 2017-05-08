@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 
@@ -170,5 +171,17 @@ public class VermontTest {
         Vermont vermont = new Vermont(display);
         vermont.accept(new CarriageReturnCommand());
         verify(display).display(vermont.getScreenBuffer());
+    }
+
+    @Test
+    public void testTimestampRecordsWhenTheTerminalWasLastUpdated() {
+        TimePiece timePiece = mock(TimePiece.class);
+        long currentTime = 100L;
+
+        Mockito.when(timePiece.getTimeMillis()).thenReturn(currentTime).thenReturn(currentTime + 1);
+        Vermont vermont = new Vermont(1, 1, new BlankDisplay(), timePiece);
+        vermont.accept(new CarriageReturnCommand());
+
+        assertThat(vermont.getLastUpdateTime(), equalTo(currentTime));
     }
 }
