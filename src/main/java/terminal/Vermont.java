@@ -40,7 +40,7 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
 
     public void accept(TerminalCommand command) {
         command.call(this);
-        this.lastUpdated = this.timePiece.getTimeMillis();
+        setLastUpdated();
         this.display.display(screen);
     }
 
@@ -87,18 +87,6 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
         return screen;
     }
 
-    private void clearRowsBelowCursor() {
-        for (int i = cursorPosition.getRow() + 1; i < height; i++) {
-            clearRow(i);
-        }
-    }
-
-    private void clearRow(int row) {
-        for (int i = 0; i < width; i++) {
-            screen[row][i] = Ascii.MIN;
-        }
-    }
-
     public CursorPosition getCursorPosition() {
         return cursorPosition;
     }
@@ -118,6 +106,14 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
         return sb.toString();
     }
 
+    public long getLastUpdateTime() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated() {
+        this.lastUpdated = this.timePiece.getTimeMillis();
+    }
+
     private void validateCursorPosition(CursorPosition position) {
         int row = position.getRow();
         if(row >= this.getHeight() || row < 0) {
@@ -129,8 +125,16 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
         }
     }
 
-    public long getLastUpdateTime() {
-        return lastUpdated;
+    private void clearRowsBelowCursor() {
+        for (int i = cursorPosition.getRow() + 1; i < height; i++) {
+            clearRow(i);
+        }
+    }
+
+    private void clearRow(int row) {
+        for (int i = 0; i < width; i++) {
+            screen[row][i] = Ascii.MIN;
+        }
     }
 }
 

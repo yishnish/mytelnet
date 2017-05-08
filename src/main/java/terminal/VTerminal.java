@@ -4,7 +4,7 @@ import command.TerminalCommand;
 
 import java.util.function.Consumer;
 
-public interface VTerminal extends Consumer<TerminalCommand>{
+public interface VTerminal extends Consumer<TerminalCommand>, UpdateTimeTracking {
     int getHeight();
 
     int getWidth();
