@@ -184,4 +184,17 @@ public class VermontTest {
 
         assertThat(vermont.getLastUpdateTime(), equalTo(currentTime));
     }
+
+    @Test
+    public void testGettingTimeElapsedSinceLastChange(){
+        TimePiece timePiece = mock(TimePiece.class);
+        long updateTime = 100L;
+        long now = updateTime + 1L;
+
+        Mockito.when(timePiece.getTimeMillis()).thenReturn(updateTime).thenReturn(now);
+        Vermont vermont = new Vermont(1, 1, new BlankDisplay(), timePiece);
+        vermont.accept(new CarriageReturnCommand());
+
+        assertThat(vermont.unchangedFor(), equalTo(now - updateTime));
+    }
 }

@@ -110,6 +110,10 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
         return lastUpdated;
     }
 
+    public long unchangedFor() {
+        return timePiece.getTimeMillis() - lastUpdated;
+    }
+
     public void setLastUpdated() {
         this.lastUpdated = this.timePiece.getTimeMillis();
     }
