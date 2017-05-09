@@ -1,6 +1,5 @@
 package network;
 
-import command.TerminalCommandCreator;
 import org.apache.commons.net.telnet.TelnetClient;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -23,7 +22,7 @@ public class MyTelnetNegotiatorTest {
         Vermont vermont = new Vermont(new BlankDisplay());
         MyInputStream inputStream = new MyInputStream();
         Mockito.when(telnetClient.getInputStream()).thenReturn(inputStream);
-        MyTelnetNegotiator telnetNegotiator = new MyTelnetNegotiator(vermont, telnetClient, new TerminalCommandCreator());
+        MyTelnetNegotiator telnetNegotiator = new MyTelnetNegotiator(vermont, telnetClient);
         telnetNegotiator.connect("a URL");
         char[] message = new char[]{Ascii.ESC, '[', ';', 'H', 'h', Ascii.ESC, '[', '0', ';', '1', 'H', 'i'};
         inputStream.setMyMessage(new String(message));
@@ -41,7 +40,7 @@ public class MyTelnetNegotiatorTest {
         Mockito.when(telnetClient.getOutputStream()).thenReturn(outputStream);
         MyInputStream inputStream = new MyInputStream();
         Mockito.when(telnetClient.getInputStream()).thenReturn(inputStream);
-        MyTelnetNegotiator telnetNegotiator = new MyTelnetNegotiator(vt, telnetClient, new TerminalCommandCreator());
+        MyTelnetNegotiator telnetNegotiator = new MyTelnetNegotiator(vt, telnetClient);
         telnetNegotiator.connect("a URL");
 
         waitToMakeAssertion();
@@ -58,7 +57,7 @@ public class MyTelnetNegotiatorTest {
         Mockito.when(telnetClient.getOutputStream()).thenReturn(outputStream);
         MyInputStream inputStream = new MyInputStream();
         Mockito.when(telnetClient.getInputStream()).thenReturn(inputStream);
-        MyTelnetNegotiator telnetNegotiator = new MyTelnetNegotiator(vt, telnetClient, new TerminalCommandCreator());
+        MyTelnetNegotiator telnetNegotiator = new MyTelnetNegotiator(vt, telnetClient);
         telnetNegotiator.connect("a URL");
 
         waitToMakeAssertion();

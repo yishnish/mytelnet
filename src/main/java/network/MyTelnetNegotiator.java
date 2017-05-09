@@ -15,10 +15,10 @@ public class MyTelnetNegotiator {
     private OutputStream outputStream;
     private TerminalCommandCreator commandCreator;
 
-    public MyTelnetNegotiator(VTerminal terminal, TelnetClient telnetClient, TerminalCommandCreator commandCreator) {
+    public MyTelnetNegotiator(VTerminal terminal, TelnetClient telnetClient) {
         this.terminal = terminal;
         this.telnetClient = telnetClient;
-        this.commandCreator = commandCreator;
+        this.commandCreator = new TerminalCommandCreator();
     }
 
     public void connect(String host) throws IOException {
