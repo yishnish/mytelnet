@@ -3,6 +3,7 @@ package network;
 import command.TerminalCommandCreator;
 import org.apache.commons.net.telnet.TelnetClient;
 import terminal.CursorPosition;
+import terminal.TerminalMode;
 import terminal.VTerminal;
 
 import java.io.*;
@@ -60,6 +61,10 @@ public class MyTelnetNegotiator {
     public void send(String text) throws IOException {
         outputStream.write(text.getBytes());
         outputStream.flush();
+    }
+
+    public void setMode(TerminalMode terminalMode) {
+        commandCreator.setMode(terminalMode);
     }
 
 }
