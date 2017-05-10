@@ -12,8 +12,6 @@ public class MyTelnetNegotiator {
 
     private VTerminal terminal;
     private TelnetClient telnetClient;
-    private InputStream inputStream;
-    private OutputStream outputStream;
     private TerminalCommandCreator commandCreator;
 
     public MyTelnetNegotiator(VTerminal terminal, TelnetClient telnetClient) {
@@ -31,9 +29,7 @@ public class MyTelnetNegotiator {
         Thread negotiatingThread = new Thread(new Runnable() {
             public void run() {
                 terminal.moveCursor(new CursorPosition(0, 0));
-                inputStream = telnetClient.getInputStream();
-                outputStream = telnetClient.getOutputStream();
-                Reader reader = new InputStreamReader(inputStream);
+                Reader reader = new InputStreamReader(telnetClient.getInputStream());
                 int character;
                 try {
                     while ((character = reader.read()) > -1) {
@@ -53,18 +49,24 @@ public class MyTelnetNegotiator {
     }
 
     public void sendLine(String text) throws IOException {
+        OutputStream outputStream = telnetClient.getOutputStream();
         outputStream.write(text.getBytes());
         outputStream.write("\n".getBytes());
         outputStream.flush();
     }
 
     public void send(String text) throws IOException {
+        OutputStream outputStream = telnetClient.getOutputStream();
         outputStream.write(text.getBytes());
         outputStream.flush();
+    }
+
+    public void send(char character) throws IOException {
+        OutputStream outputStream = telnetClient.getOutputStream();
+        outputStream.write(character);
     }
 
     public void setMode(TerminalMode terminalMode) {
         commandCreator.setMode(terminalMode);
     }
-
 }

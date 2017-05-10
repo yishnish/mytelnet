@@ -11,7 +11,7 @@ import java.io.*;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 public class MyTelnetNegotiatorTest {
 
@@ -41,9 +41,6 @@ public class MyTelnetNegotiatorTest {
         MyInputStream inputStream = new MyInputStream();
         Mockito.when(telnetClient.getInputStream()).thenReturn(inputStream);
         MyTelnetNegotiator telnetNegotiator = new MyTelnetNegotiator(vt, telnetClient);
-        telnetNegotiator.connect("a URL");
-
-        waitToMakeAssertion();
 
         telnetNegotiator.send("hi");
 
@@ -58,13 +55,20 @@ public class MyTelnetNegotiatorTest {
         MyInputStream inputStream = new MyInputStream();
         Mockito.when(telnetClient.getInputStream()).thenReturn(inputStream);
         MyTelnetNegotiator telnetNegotiator = new MyTelnetNegotiator(vt, telnetClient);
-        telnetNegotiator.connect("a URL");
-
-        waitToMakeAssertion();
 
         telnetNegotiator.sendLine("hi");
 
         assertThat(outputStream.toString(), containsString("hi\n"));
+    }
+
+    @Test
+    public void testSendingEscCharacter() throws IOException {
+        OutputStream outputStream = mock(OutputStream.class);
+        when(telnetClient.getOutputStream()).thenReturn(outputStream);
+        MyTelnetNegotiator telnetNegotiator = new MyTelnetNegotiator(null, telnetClient);
+
+        telnetNegotiator.send(Ascii.ESC);
+        verify(outputStream, times(1)).write(Ascii.ESC);
     }
 
     private void waitToMakeAssertion() throws InterruptedException {
