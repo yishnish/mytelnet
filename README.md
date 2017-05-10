@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/yishnish/mytelnet.svg?branch=master)](https://travis-ci.org/yishnish/mytelnet)    [![Coverage Status](https://coveralls.io/repos/github/yishnish/mytelnet/badge.svg)](https://coveralls.io/github/yishnish/mytelnet) 
+[![Build Status](https://travis-ci.org/yishnish/mytelnet.svg?branch=master)](https://travis-ci.org/yishnish/mytelnet)    [![codecov](https://codecov.io/gh/yishnish/mytelnet/branch/master/graph/badge.svg)](https://codecov.io/gh/yishnish/mytelnet) 
 
 Hi!
 
