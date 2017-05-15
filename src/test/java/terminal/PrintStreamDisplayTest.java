@@ -24,7 +24,7 @@ public class PrintStreamDisplayTest {
 
         PrintStreamDisplay display = new PrintStreamDisplay(output);
 
-        display.display(buffer);
+        display.display(new ScreenBuffer(buffer));
         inOrder.verify(output).println(new String(buffer[0]));
         inOrder.verify(output).println(new String(buffer[1]));
         inOrder.verify(output).println(new String(buffer[2]));
@@ -33,11 +33,11 @@ public class PrintStreamDisplayTest {
     @Test
     public void testWritingNullCharactersActuallyWritesASpace() throws IOException {
         final String SPACE = " ";
-        char[][] buffer = new char[][]{
+        ScreenBuffer buffer = new ScreenBuffer(new char[][]{
                 {'X', Ascii.MIN, Ascii.MIN},
                 {Ascii.MIN, 'X', Ascii.MIN},
                 {Ascii.MIN, Ascii.MIN, 'X'}
-        };
+        });
 
         PrintStream output = mock(PrintStream.class);
         InOrder inOrder = inOrder(output);

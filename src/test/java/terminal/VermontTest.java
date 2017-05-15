@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -163,7 +163,7 @@ public class VermontTest {
     public void testAccessToTheScreenBuffer() throws Exception {
         vermont.home();
         vermont.write('X');
-        assertThat(vermont.getScreenBuffer()[0][0], equalTo('X'));
+        assertThat(vermont.getScreenBuffer().charAt(Coordinates.HOME), equalTo('X'));
     }
 
     @Test
@@ -194,7 +194,7 @@ public class VermontTest {
 
         Thread fetch = new Thread(new Runnable() {
             public void run() {
-                char actual = vermont.getScreenBuffer()[0][0];
+                char actual = vermont.getScreenBuffer().charAt(Coordinates.HOME);
                 if (actual == FINAL_VALUE) {
                     passed.set(true);
                 }
@@ -204,7 +204,7 @@ public class VermontTest {
         write.start();
         fetch.start();
         fetch.join();
-        assertEquals(passed.get(), true);
+        assertTrue(passed.get());
     }
 
     @Test

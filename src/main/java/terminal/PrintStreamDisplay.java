@@ -11,12 +11,8 @@ public class PrintStreamDisplay implements Display {
         this.stream = outputStream;
     }
 
-    public void display(char[][] buffer) {
-        writeBufferRowsToScreen(buffer);
-    }
-
-    private void writeBufferRowsToScreen(char[][] buffer) {
-        for (char[] row : buffer) {
+    public void display(ScreenBuffer buffer) {
+        for (char[] row : buffer.getScreenData()) {
             char[] copy = replaceNullWIthSpace(row);
             String s = new String(copy);
             stream.println(s);

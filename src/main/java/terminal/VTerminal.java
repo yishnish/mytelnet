@@ -34,5 +34,5 @@ public interface VTerminal extends Consumer<TerminalCommand>, UpdateTimeTracking
 
     void clearFromCursorToEndOfRow();
 
-    char[][] getScreenBuffer();
+    ScreenBuffer getScreenBuffer();
 }

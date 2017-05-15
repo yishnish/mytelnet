@@ -6,6 +6,10 @@ public class Coordinates {
     private final int row;
     private final int column;
 
+    public static Coordinates coordinates(int row, int column) {
+        return new Coordinates(row, column);
+    }
+
     public Coordinates(int row, int column) {
         this.row = row;
         this.column = column;

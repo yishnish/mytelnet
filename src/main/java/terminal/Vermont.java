@@ -42,11 +42,11 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
     public synchronized void accept(TerminalCommand command) {
         command.call(this);
         setLastUpdated();
-        this.display.display(screen);
+        this.display.display(getScreenBuffer());
     }
 
-    public synchronized char[][] getScreenBuffer() {
-        return screen;
+    public synchronized ScreenBuffer getScreenBuffer() {
+        return new ScreenBuffer(screen, new BufferMetadata(getLastUpdateTime()));
     }
 
     public void write(char character) {
@@ -72,7 +72,7 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
     }
 
     public void home() {
-        coordinates = coordinates.HOME;
+        coordinates = Coordinates.HOME;
     }
 
     public void clearFromCursorDown() {
