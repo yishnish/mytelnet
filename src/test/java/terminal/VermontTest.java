@@ -3,6 +3,7 @@ package terminal;
 import command.CarriageReturnCommand;
 import command.CharacterWriteCommand;
 import command.TerminalCommand;
+import locations.Coordinates;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,65 +38,65 @@ public class VermontTest {
     }
 
     @Test
-    public void testCursorPosition() {
-        CursorPosition position = new CursorPosition(4, 3);
+    public void testCoordinates() {
+        Coordinates position = new Coordinates(4, 3);
         vermont.moveCursor(position);
-        assertThat(vermont.getCursorPosition(), equalTo(position));
-        CursorPosition newPosition = new CursorPosition(5, 6);
+        assertThat(vermont.getCoordinates(), equalTo(position));
+        Coordinates newPosition = new Coordinates(5, 6);
         vermont.moveCursor(newPosition);
-        assertThat(vermont.getCursorPosition(), equalTo(new CursorPosition(5, 6)));
+        assertThat(vermont.getCoordinates(), equalTo(new Coordinates(5, 6)));
     }
 
     @Test
     public void testMovingHome() {
-        vermont.moveCursor(new CursorPosition(4, 4));
+        vermont.moveCursor(new Coordinates(4, 4));
         vermont.home();
-        assertThat(vermont.getCursorPosition(), equalTo(CursorPosition.HOME));
+        assertThat(vermont.getCoordinates(), equalTo(Coordinates.HOME));
     }
 
     @Test
-    public void testMovingCursorPositionOutsideSizeIsAnError_tooLow() {
+    public void testMovingCoordinatesOutsideSizeIsAnError_tooLow() {
         thrown.expect(ScreenAccessOutOfBoundsException.class);
-        vermont.moveCursor(new CursorPosition(vermont.getHeight(), 0));
+        vermont.moveCursor(new Coordinates(vermont.getHeight(), 0));
     }
 
     @Test
-    public void testMovingCursorPositionOutsideSizeIsAnError_tooHigh() {
+    public void testMovingCoordinatesOutsideSizeIsAnError_tooHigh() {
         thrown.expect(ScreenAccessOutOfBoundsException.class);
-        vermont.moveCursor(new CursorPosition(-1, 0));
+        vermont.moveCursor(new Coordinates(-1, 0));
     }
 
     @Test
-    public void testMovingCursorPositionOutsideSizeIsAnError_tooLeft() {
+    public void testMovingCoordinatesOutsideSizeIsAnError_tooLeft() {
         thrown.expect(ScreenAccessOutOfBoundsException.class);
-        vermont.moveCursor(new CursorPosition(0, -1));
+        vermont.moveCursor(new Coordinates(0, -1));
     }
 
     @Test
-    public void testMovingCursorPositionOutsideSizeIsAnError_tooRightMate() {
+    public void testMovingCoordinatesOutsideSizeIsAnError_tooRightMate() {
         thrown.expect(ScreenAccessOutOfBoundsException.class);
-        vermont.moveCursor(new CursorPosition(0, vermont.getWidth()));
+        vermont.moveCursor(new Coordinates(0, vermont.getWidth()));
     }
 
     @Test
     public void testAdvancingCursorWithinBounds() throws Exception {
         vermont.home();
         vermont.advanceCursor();
-        assertThat(vermont.getCursorPosition(), equalTo(new CursorPosition(0, 1)));
+        assertThat(vermont.getCoordinates(), equalTo(new Coordinates(0, 1)));
     }
 
     @Test
-    public void testTryingToAdvanceCursorPositionOutOfBoundsDoesNotMoveCursor() throws Exception {
-        CursorPosition edgeOfScreen = new CursorPosition(0, vermont.getWidth() - 1);
+    public void testTryingToAdvanceCoordinatesOutOfBoundsDoesNotMoveCursor() throws Exception {
+        Coordinates edgeOfScreen = new Coordinates(0, vermont.getWidth() - 1);
         vermont.moveCursor(edgeOfScreen);
         vermont.advanceCursor();
-        assertThat(vermont.getCursorPosition(), equalTo(edgeOfScreen));
+        assertThat(vermont.getCoordinates(), equalTo(edgeOfScreen));
     }
 
     @Test
-    public void testWritingACharacterPutsItAtTheCursorLocation() {
-        CursorPosition xPosition = new CursorPosition(3, 3);
-        CursorPosition yPosition = new CursorPosition(6, 2);
+    public void testWritingACharacterPutsItAtTheCursorCoordinates() {
+        Coordinates xPosition = new Coordinates(3, 3);
+        Coordinates yPosition = new Coordinates(6, 2);
         vermont.moveCursor(xPosition);
         vermont.accept(new CharacterWriteCommand('X'));
         vermont.moveCursor(yPosition);
@@ -109,39 +110,39 @@ public class VermontTest {
         CharacterWriteCommand command = new CharacterWriteCommand('z');
         vermont.home();
         vermont.accept(command);
-        assertThat(vermont.characterAt(CursorPosition.HOME), equalTo('z'));
+        assertThat(vermont.characterAt(Coordinates.HOME), equalTo('z'));
     }
 
     @Test
     public void testGettingScreenContentsAsString() {
-        vermont.moveCursor(new CursorPosition(10, 10));
+        vermont.moveCursor(new Coordinates(10, 10));
         vermont.accept(new CharacterWriteCommand('c'));
-        vermont.moveCursor(new CursorPosition(10, 11));
+        vermont.moveCursor(new Coordinates(10, 11));
         vermont.accept(new CharacterWriteCommand(' '));
-        vermont.moveCursor(new CursorPosition(10, 12));
+        vermont.moveCursor(new Coordinates(10, 12));
         vermont.accept(new CharacterWriteCommand('t'));
         assertThat(vermont.getBufferAsString(), containsString("c t"));
     }
 
     @Test
     public void testCarriageReturn() throws Exception {
-        vermont.moveCursor(new CursorPosition(1, 2));
+        vermont.moveCursor(new Coordinates(1, 2));
         vermont.carriageReturn();
-        assertThat(vermont.getCursorPosition(), equalTo(new CursorPosition(1, 0)));
+        assertThat(vermont.getCoordinates(), equalTo(new Coordinates(1, 0)));
     }
 
     @Test
     public void testNewLine() throws Exception {
-        vermont.moveCursor(new CursorPosition(1, 2));
+        vermont.moveCursor(new Coordinates(1, 2));
         vermont.newLine();
-        assertThat(vermont.getCursorPosition(), equalTo(new CursorPosition(2, 2)));
+        assertThat(vermont.getCoordinates(), equalTo(new Coordinates(2, 2)));
     }
 
     @Test
     public void testCarriageReturnDoesntMoveCursorBelowLastLine_ForConvenienceReallyThisShouldMaybeScroll() {
-        vermont.moveCursor(new CursorPosition(vermont.getHeight() - 1, 1));
+        vermont.moveCursor(new Coordinates(vermont.getHeight() - 1, 1));
         vermont.carriageReturn();
-        assertThat(vermont.getCursorPosition(), equalTo(new CursorPosition(vermont.getHeight() - 1, 0)));
+        assertThat(vermont.getCoordinates(), equalTo(new Coordinates(vermont.getHeight() - 1, 0)));
     }
 
     @Test
@@ -151,7 +152,7 @@ public class VermontTest {
         vermont.write('A');
         vermont.write('B');
         vermont.write('C');
-        vermont.moveCursor(new CursorPosition(0, 1));
+        vermont.moveCursor(new Coordinates(0, 1));
         vermont.clearFromCursorToEndOfRow();
         assertThat(vermont.getBufferAsString(), containsString("A"));
         assertThat(vermont.getBufferAsString(), not(containsString("B")));

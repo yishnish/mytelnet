@@ -1,5 +1,6 @@
 package command;
 
+import locations.Coordinates;
 import org.junit.Before;
 import org.junit.Test;
 import terminal.*;
@@ -25,7 +26,7 @@ public class TerminalCommandCreatorTest {
     public void testWritingANonEscapeCharacterCreatesAnAddCharacterCommand() throws Exception {
         TerminalCommand command = commandCreator.create('S');
         command.call(terminal);
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('S'));
+        assertThat(terminal.characterAt(Coordinates.HOME), equalTo('S'));
     }
 
     @Test
@@ -36,7 +37,7 @@ public class TerminalCommandCreatorTest {
         TerminalCommand command = commandCreator.create(Ascii.ESC);
         command.call(terminal);
 
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('X'));
+        assertThat(terminal.characterAt(Coordinates.HOME), equalTo('X'));
     }
 
     @Test
@@ -47,7 +48,7 @@ public class TerminalCommandCreatorTest {
         commandCreator.create(Ascii.ESC).call(terminal);
         commandCreator.create('[').call(terminal);
 
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('X'));
+        assertThat(terminal.characterAt(Coordinates.HOME), equalTo('X'));
     }
 
     @Test
@@ -64,8 +65,8 @@ public class TerminalCommandCreatorTest {
 
         commandCreator.create('Y').call(terminal);
 
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('X'));
-        assertThat(terminal.characterAt(new CursorPosition(1, 2)), equalTo('Y'));
+        assertThat(terminal.characterAt(Coordinates.HOME), equalTo('X'));
+        assertThat(terminal.characterAt(new Coordinates(1, 2)), equalTo('Y'));
     }
 
     @Test
@@ -83,8 +84,8 @@ public class TerminalCommandCreatorTest {
 
         commandCreator.create('Y').call(terminal);
 
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('X'));
-        assertThat(terminal.characterAt(new CursorPosition(1, 2)), equalTo('Y'));
+        assertThat(terminal.characterAt(Coordinates.HOME), equalTo('X'));
+        assertThat(terminal.characterAt(new Coordinates(1, 2)), equalTo('Y'));
     }
 
     @Test
@@ -102,23 +103,23 @@ public class TerminalCommandCreatorTest {
 
         commandCreator.create('Y').call(terminal);
 
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('X'));
-        assertThat(terminal.characterAt(new CursorPosition(0, 1)), equalTo('Y'));
-        assertThat(terminal.characterAt(new CursorPosition(1, 2)), equalTo(Ascii.MIN));
+        assertThat(terminal.characterAt(Coordinates.HOME), equalTo('X'));
+        assertThat(terminal.characterAt(new Coordinates(0, 1)), equalTo('Y'));
+        assertThat(terminal.characterAt(new Coordinates(1, 2)), equalTo(Ascii.MIN));
     }
 
     @Test
     public void testCarriageReturn() throws Exception {
-        terminal.moveCursor(new CursorPosition(3, 4));
+        terminal.moveCursor(new Coordinates(3, 4));
         commandCreator.create(Ascii.CR).call(terminal);
-        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(3, 0)));
+        assertThat(terminal.getCoordinates(), equalTo(new Coordinates(3, 0)));
     }
 
     @Test
     public void testNewLine() throws Exception {
-        terminal.moveCursor(new CursorPosition(3, 4));
+        terminal.moveCursor(new Coordinates(3, 4));
         commandCreator.create(Ascii.LF).call(terminal);
-        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(4, 4)));
+        assertThat(terminal.getCoordinates(), equalTo(new Coordinates(4, 4)));
     }
 
     @Test
@@ -128,9 +129,9 @@ public class TerminalCommandCreatorTest {
         commandCreator.create('A').call(terminal);
         commandCreator.create('B').call(terminal);
         commandCreator.create('C').call(terminal);
-        terminal.moveCursor(new CursorPosition(1, 2));
+        terminal.moveCursor(new Coordinates(1, 2));
         commandCreator.create('D').call(terminal);
-        terminal.moveCursor(new CursorPosition(0, 2));
+        terminal.moveCursor(new Coordinates(0, 2));
 
         char[] clearFromCursorDown = {Ascii.ESC, '[', 'J'};
         for (char c : clearFromCursorDown) {
@@ -150,9 +151,9 @@ public class TerminalCommandCreatorTest {
         commandCreator.create('A').call(terminal);
         commandCreator.create('B').call(terminal);
         commandCreator.create('C').call(terminal);
-        terminal.moveCursor(new CursorPosition(1, 0));
+        terminal.moveCursor(new Coordinates(1, 0));
         commandCreator.create('D').call(terminal);
-        terminal.moveCursor(new CursorPosition(0, 1));
+        terminal.moveCursor(new Coordinates(0, 1));
 
         char[] clearRightSequence = {Ascii.ESC, '[', 'K'};
         for (char c : clearRightSequence) {
@@ -166,47 +167,47 @@ public class TerminalCommandCreatorTest {
 
     @Test
     public void testCreatingBackspaceCommand(){
-        terminal.moveCursor(new CursorPosition(0, 1));
+        terminal.moveCursor(new Coordinates(0, 1));
 
         commandCreator.create(Ascii.BS).call(terminal);
 
-        assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
+        assertThat(terminal.getCoordinates(), equalTo(Coordinates.HOME));
     }
 
     @Test
     public void testCreatingCursorRightCommand(){
-        terminal.moveCursor(new CursorPosition(1, 1));
+        terminal.moveCursor(new Coordinates(1, 1));
 
         char[] cursorUpSequence = {Ascii.ESC, '[', 'C'};
         for (char c : cursorUpSequence) {
             commandCreator.create(c).call(terminal);
         }
 
-        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(1, 2)));
+        assertThat(terminal.getCoordinates(), equalTo(new Coordinates(1, 2)));
     }
 
     @Test
     public void testCreatingCursorUpCommand(){
-        terminal.moveCursor(new CursorPosition(1, 1));
+        terminal.moveCursor(new Coordinates(1, 1));
 
         char[] cursorUpSequence = {Ascii.ESC, '[', 'A'};
         for (char c : cursorUpSequence) {
             commandCreator.create(c).call(terminal);
         }
 
-        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(0, 1)));
+        assertThat(terminal.getCoordinates(), equalTo(new Coordinates(0, 1)));
     }
 
     @Test
     public void testCreatingCursorDownCommand(){
-        terminal.moveCursor(new CursorPosition(1, 1));
+        terminal.moveCursor(new Coordinates(1, 1));
 
         char[] cursorUpSequence = {Ascii.ESC, '[', 'B'};
         for (char c : cursorUpSequence) {
             commandCreator.create(c).call(terminal);
         }
 
-        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(2, 1)));
+        assertThat(terminal.getCoordinates(), equalTo(new Coordinates(2, 1)));
     }
 
     @Test
@@ -230,9 +231,9 @@ public class TerminalCommandCreatorTest {
                 commandCreator.create(c).call(terminal);
             }
         }
-        assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('W'));
+        assertThat(terminal.getCoordinates(), equalTo(Coordinates.HOME));
+        assertThat(terminal.characterAt(Coordinates.HOME), equalTo('W'));
         commandCreator.create('M').call(terminal);
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('M'));
+        assertThat(terminal.characterAt(Coordinates.HOME), equalTo('M'));
     }
 }

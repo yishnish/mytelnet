@@ -2,7 +2,7 @@ package network;
 
 import command.TerminalCommandCreator;
 import org.apache.commons.net.telnet.TelnetClient;
-import terminal.CursorPosition;
+import locations.Coordinates;
 import terminal.TerminalMode;
 import terminal.VTerminal;
 
@@ -28,7 +28,7 @@ public class MyTelnetNegotiator {
     private void start() {
         Thread negotiatingThread = new Thread(new Runnable() {
             public void run() {
-                terminal.moveCursor(new CursorPosition(0, 0));
+                terminal.moveCursor(new Coordinates(0, 0));
                 Reader reader = new InputStreamReader(telnetClient.getInputStream());
                 int character;
                 try {

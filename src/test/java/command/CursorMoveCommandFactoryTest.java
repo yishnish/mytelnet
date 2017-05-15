@@ -1,5 +1,6 @@
 package command;
 
+import locations.Coordinates;
 import org.junit.Test;
 import terminal.*;
 
@@ -18,9 +19,9 @@ public class CursorMoveCommandFactoryTest {
         CursorMoveCommand command = commandFactory.createCommand(listOf('[', '1', ';', '1'));
         terminal.accept(command);
 
-        CursorPosition cursorPosition = terminal.getCursorPosition();
-        assertThat(cursorPosition.getRow(), equalTo(1));
-        assertThat(cursorPosition.getCol(), equalTo(1));
+        Coordinates Coordinates = terminal.getCoordinates();
+        assertThat(Coordinates.getRow(), equalTo(1));
+        assertThat(Coordinates.getColumn(), equalTo(1));
     }
 
     @Test
@@ -31,9 +32,9 @@ public class CursorMoveCommandFactoryTest {
         CursorMoveCommand command = commandFactory.createCommand(listOf('[', '1', ';', '1'));
         terminal.accept(command);
 
-        CursorPosition cursorPosition = terminal.getCursorPosition();
-        assertThat(cursorPosition.getRow(), equalTo(0));
-        assertThat(cursorPosition.getCol(), equalTo(0));
+        Coordinates Coordinates = terminal.getCoordinates();
+        assertThat(Coordinates.getRow(), equalTo(0));
+        assertThat(Coordinates.getColumn(), equalTo(0));
     }
 
     private ArrayList<Character> listOf(char... chars) {

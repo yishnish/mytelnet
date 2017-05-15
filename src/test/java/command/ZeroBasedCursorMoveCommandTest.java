@@ -1,7 +1,7 @@
 package command;
 
 import org.junit.Test;
-import terminal.CursorPosition;
+import locations.Coordinates;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,7 @@ public class ZeroBasedCursorMoveCommandTest extends CursorMoveCommandTest{
         ZeroBasedCursorMoveCommand command = new ZeroBasedCursorMoveCommand(listOf('[', '1', ';', '3'));
         terminal.accept(command);
 
-        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(1, 3)));
+        assertThat(terminal.getCoordinates(), equalTo(new Coordinates(1, 3)));
     }
 
     @Override

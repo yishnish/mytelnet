@@ -1,6 +1,7 @@
 package terminal;
 
 import command.TerminalCommand;
+import locations.Coordinates;
 
 import java.util.function.Consumer;
 
@@ -12,7 +13,7 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
     private int height;
     private int width;
     private char[][] screen;
-    private CursorPosition cursorPosition = new CursorPosition(0, 0);
+    private Coordinates coordinates = new Coordinates(0, 0);
 
     public Vermont(Display display) {
         this(24, 80, display, new UTCTimePiece());
@@ -49,29 +50,29 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
     }
 
     public void write(char character) {
-        screen[cursorPosition.getRow()][cursorPosition.getCol()] = character;
+        screen[coordinates.getRow()][coordinates.getColumn()] = character;
         advanceCursor();
     }
 
-    public void moveCursor(CursorPosition position) {
-        validateCursorPosition(position);
-        this.cursorPosition = position;
+    public void moveCursor(Coordinates coordinates) {
+        validateCoordinates(coordinates);
+        this.coordinates = coordinates;
     }
 
     public void advanceCursor() {
-        cursorPosition = new CursorPosition(cursorPosition.getRow(), Math.min(width - 1, cursorPosition.getCol() + 1));
+        coordinates = new Coordinates(coordinates.getRow(), Math.min(width - 1, coordinates.getColumn() + 1));
     }
 
     public void newLine() {
-        cursorPosition = new CursorPosition(Math.min(cursorPosition.getRow() + 1, height - 1), cursorPosition.getCol());
+        coordinates = new Coordinates(Math.min(coordinates.getRow() + 1, height - 1), coordinates.getColumn());
     }
 
     public void carriageReturn() {
-        cursorPosition = new CursorPosition(cursorPosition.getRow(), 0);
+        coordinates = new Coordinates(coordinates.getRow(), 0);
     }
 
     public void home() {
-        cursorPosition = CursorPosition.HOME;
+        coordinates = coordinates.HOME;
     }
 
     public void clearFromCursorDown() {
@@ -80,19 +81,19 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
     }
 
     public void clearFromCursorToEndOfRow() {
-        int column = cursorPosition.getCol();
-        int row = cursorPosition.getRow();
+        int column = coordinates.getColumn();
+        int row = coordinates.getRow();
         for (int i = column; i < width; i++) {
             screen[row][i] = Ascii.MIN;
         }
     }
 
-    public CursorPosition getCursorPosition() {
-        return cursorPosition;
+    public Coordinates getCoordinates() {
+        return coordinates;
     }
 
-    public char characterAt(CursorPosition position) {
-        return screen[position.getRow()][position.getCol()];
+    public char characterAt(Coordinates position) {
+        return screen[position.getRow()][position.getColumn()];
     }
 
     public String getBufferAsString() {
@@ -118,19 +119,19 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
         this.lastUpdated = this.timePiece.getTimeMillis();
     }
 
-    private void validateCursorPosition(CursorPosition position) {
+    private void validateCoordinates(Coordinates position) {
         int row = position.getRow();
         if(row >= this.getHeight() || row < 0) {
             throw new ScreenAccessOutOfBoundsException("Row out of bounds: row was " + row + " and height is " + this.getHeight());
         }
-        int col = position.getCol();
+        int col = position.getColumn();
         if(col >= this.getWidth() || col < 0) {
             throw new ScreenAccessOutOfBoundsException("Column out of bounds: column was " + col + " and width is " + this.getWidth());
         }
     }
 
     private void clearRowsBelowCursor() {
-        for (int i = cursorPosition.getRow() + 1; i < height; i++) {
+        for (int i = coordinates.getRow() + 1; i < height; i++) {
             clearRow(i);
         }
     }

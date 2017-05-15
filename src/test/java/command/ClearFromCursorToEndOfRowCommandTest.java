@@ -3,7 +3,7 @@ package command;
 import org.junit.Before;
 import org.junit.Test;
 import terminal.BlankDisplay;
-import terminal.CursorPosition;
+import locations.Coordinates;
 import terminal.VTerminal;
 import terminal.Vermont;
 
@@ -25,9 +25,9 @@ public class ClearFromCursorToEndOfRowCommandTest {
         terminal.write('A');
         terminal.write('B');
         terminal.write('C');
-        terminal.moveCursor(new CursorPosition(1, 0));
+        terminal.moveCursor(new Coordinates(1, 0));
         terminal.write('D');
-        terminal.moveCursor(new CursorPosition(0, 1));
+        terminal.moveCursor(new Coordinates(0, 1));
         terminal.accept(new ClearFromCursorToEndOfRowCommand());
 
         assertThat(terminal.getBufferAsString(), containsString("A"));

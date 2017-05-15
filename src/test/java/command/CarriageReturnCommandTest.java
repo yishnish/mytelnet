@@ -2,7 +2,7 @@ package command;
 
 import org.junit.Test;
 import terminal.BlankDisplay;
-import terminal.CursorPosition;
+import locations.Coordinates;
 import terminal.VTerminal;
 import terminal.Vermont;
 
@@ -14,10 +14,10 @@ public class CarriageReturnCommandTest {
     @Test
     public void testMovesCursorToStartOfCurrentLine() {
         VTerminal terminal = new Vermont(new BlankDisplay());
-        terminal.moveCursor(new CursorPosition(1, 2));
+        terminal.moveCursor(new Coordinates(1, 2));
         CarriageReturnCommand command = new CarriageReturnCommand();
         terminal.accept(command);
 
-        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(1, 0)));
+        assertThat(terminal.getCoordinates(), equalTo(new Coordinates(1, 0)));
     }
 }

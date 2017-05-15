@@ -3,7 +3,7 @@ package command;
 import org.junit.Before;
 import org.junit.Test;
 import terminal.BlankDisplay;
-import terminal.CursorPosition;
+import locations.Coordinates;
 import terminal.VTerminal;
 import terminal.Vermont;
 
@@ -24,18 +24,18 @@ public abstract class CursorMoveCommandTest {
 
     @Test
     public void testMoveHomeWithSemicolon() throws Exception {
-        terminal.moveCursor(new CursorPosition(1, 1));
+        terminal.moveCursor(new Coordinates(1, 1));
         CursorMoveCommand commandHSemi = moveCommandFor(listOf('[', ';', 'H'));
         terminal.accept(commandHSemi);
-        assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
+        assertThat(terminal.getCoordinates(), equalTo(Coordinates.HOME));
     }
 
     @Test
     public void testMoveHomeCommandWithoutSemicolon() throws Exception {
-        terminal.moveCursor(new CursorPosition(1, 1));
+        terminal.moveCursor(new Coordinates(1, 1));
         CursorMoveCommand commandHSemi = moveCommandFor(listOf('[', 'H'));
         terminal.accept(commandHSemi);
-        assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
+        assertThat(terminal.getCoordinates(), equalTo(Coordinates.HOME));
     }
 
     protected ArrayList<Character> listOf(char... chars) {

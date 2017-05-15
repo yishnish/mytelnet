@@ -2,7 +2,7 @@ package command;
 
 import org.junit.Test;
 import terminal.BlankDisplay;
-import terminal.CursorPosition;
+import locations.Coordinates;
 import terminal.VTerminal;
 import terminal.Vermont;
 
@@ -14,10 +14,10 @@ public class NewLineCommandTest {
     @Test
     public void testMovesCursorToCurrentColumnOnNextLine() {
         VTerminal terminal = new Vermont(new BlankDisplay());
-        terminal.moveCursor(new CursorPosition(1, 2));
+        terminal.moveCursor(new Coordinates(1, 2));
         NewLineCommand command = new NewLineCommand();
         terminal.accept(command);
 
-        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(2, 2)));
+        assertThat(terminal.getCoordinates(), equalTo(new Coordinates(2, 2)));
     }
 }

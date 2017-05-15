@@ -2,7 +2,7 @@ package command;
 
 import org.junit.Test;
 import terminal.BlankDisplay;
-import terminal.CursorPosition;
+import locations.Coordinates;
 import terminal.VTerminal;
 import terminal.Vermont;
 
@@ -14,10 +14,10 @@ public class NoOpCommandTest {
     @Test
     public void testDoesNothing() throws Exception {
         VTerminal vermont = new Vermont(new BlankDisplay());
-        CursorPosition cp = vermont.getCursorPosition();
+        Coordinates cp = vermont.getCoordinates();
         String screenText = vermont.getBufferAsString();
         (new NoOpCommand()).call(vermont);
-        assertThat(vermont.getCursorPosition(), equalTo(cp));
+        assertThat(vermont.getCoordinates(), equalTo(cp));
         assertThat(vermont.getBufferAsString(), equalTo(screenText));
     }
 }

@@ -2,7 +2,7 @@ package command;
 
 import org.junit.Test;
 import terminal.BlankDisplay;
-import terminal.CursorPosition;
+import locations.Coordinates;
 import terminal.Vermont;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -17,6 +17,6 @@ public class CharacterWriteCommandTest {
         CharacterWriteCommand command = new CharacterWriteCommand('L');
 
         command.call(terminal);
-        assertThat(terminal.characterAt(CursorPosition.HOME), equalTo('L'));
+        assertThat(terminal.characterAt(Coordinates.HOME), equalTo('L'));
     }
 }

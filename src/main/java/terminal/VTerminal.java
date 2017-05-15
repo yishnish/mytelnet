@@ -1,6 +1,7 @@
 package terminal;
 
 import command.TerminalCommand;
+import locations.Coordinates;
 
 import java.util.function.Consumer;
 
@@ -9,13 +10,13 @@ public interface VTerminal extends Consumer<TerminalCommand>, UpdateTimeTracking
 
     int getWidth();
 
-    void moveCursor(CursorPosition position) ;
+    void moveCursor(Coordinates position) ;
 
-    CursorPosition getCursorPosition();
+    Coordinates getCoordinates();
 
     void write(char character);
 
-    char characterAt(CursorPosition position);
+    char characterAt(Coordinates position);
 
     String getBufferAsString();
 

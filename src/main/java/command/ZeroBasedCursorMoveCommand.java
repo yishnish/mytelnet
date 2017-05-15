@@ -1,6 +1,6 @@
 package command;
 
-import terminal.CursorPosition;
+import locations.Coordinates;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ public class ZeroBasedCursorMoveCommand extends CursorMoveCommand {
     }
 
     @Override
-    protected CursorPosition makeCursorPosition(int row, int column) {
-        return new CursorPosition(row, column);
+    protected Coordinates makeCoordinates(int row, int column) {
+        return new Coordinates(row, column);
     }
 }

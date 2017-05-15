@@ -2,7 +2,7 @@ package command;
 
 import org.junit.Test;
 import terminal.BlankDisplay;
-import terminal.CursorPosition;
+import locations.Coordinates;
 import terminal.Vermont;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -13,11 +13,11 @@ public class CursorUpCommandTest {
     @Test
     public void testMovingTheCursorUp() throws Exception {
         Vermont terminal = new Vermont(new BlankDisplay());
-        terminal.moveCursor(new CursorPosition(1, 0));
+        terminal.moveCursor(new Coordinates(1, 0));
 
         CursorUpCommand command = new CursorUpCommand();
         command.call(terminal);
         
-        assertThat(terminal.getCursorPosition(), equalTo(CursorPosition.HOME));
+        assertThat(terminal.getCoordinates(), equalTo(Coordinates.HOME));
     }
 }

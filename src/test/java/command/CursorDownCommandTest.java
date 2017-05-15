@@ -2,7 +2,7 @@ package command;
 
 import org.junit.Test;
 import terminal.BlankDisplay;
-import terminal.CursorPosition;
+import locations.Coordinates;
 import terminal.Vermont;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -18,7 +18,7 @@ public class CursorDownCommandTest {
         CursorDownCommand command = new CursorDownCommand();
         command.call(terminal);
         
-        assertThat(terminal.getCursorPosition(), equalTo(new CursorPosition(1, 0)));
+        assertThat(terminal.getCoordinates(), equalTo(new Coordinates(1, 0)));
     }
 
 }
