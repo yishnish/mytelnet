@@ -38,10 +38,14 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
         return this.width;
     }
 
-    public void accept(TerminalCommand command) {
+    public synchronized void accept(TerminalCommand command) {
         command.call(this);
         setLastUpdated();
         this.display.display(screen);
+    }
+
+    public synchronized char[][] getScreenBuffer() {
+        return screen;
     }
 
     public void write(char character) {
@@ -81,10 +85,6 @@ public class Vermont implements VTerminal, Consumer<TerminalCommand> {
         for (int i = column; i < width; i++) {
             screen[row][i] = Ascii.MIN;
         }
-    }
-
-    public char[][] getScreenBuffer() {
-        return screen;
     }
 
     public CursorPosition getCursorPosition() {

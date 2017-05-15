@@ -2,6 +2,7 @@ package terminal;
 
 import command.CarriageReturnCommand;
 import command.CharacterWriteCommand;
+import command.TerminalCommand;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -9,11 +10,11 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -164,6 +165,46 @@ public class VermontTest {
         assertThat(vermont.getScreenBuffer()[0][0], equalTo('X'));
     }
 
+    @Test
+    public void testFetchingTheScreenBufferWaitsForWritesToTheBufferToFinish() throws InterruptedException {
+        vermont.home();
+        vermont.write('G');
+
+        final char FINAL_VALUE = 'U';
+
+        final AtomicBoolean passed = new AtomicBoolean(false);
+
+        Thread write = new Thread(new Runnable() {
+            public void run() {
+                vermont.accept(new TerminalCommand() {
+                    public void call(VTerminal terminal) {
+                        try {
+                            Thread.sleep(100L);
+                            terminal.home();
+                            terminal.accept(new CharacterWriteCommand(FINAL_VALUE));
+                        } catch (InterruptedException e) {
+                            throw new AssertionError("Interrupted while waiting to or writing to the VTerminal");
+                        }
+
+                    }
+                });
+            }
+        });
+
+        Thread fetch = new Thread(new Runnable() {
+            public void run() {
+                char actual = vermont.getScreenBuffer()[0][0];
+                if (actual == FINAL_VALUE) {
+                    passed.set(true);
+                }
+            }
+        });
+
+        write.start();
+        fetch.start();
+        fetch.join();
+        assertEquals(passed.get(), true);
+    }
 
     @Test
     public void testDisplayIsNotifiedWhenAcceptingTerminalCommand() throws IOException {
@@ -186,7 +227,7 @@ public class VermontTest {
     }
 
     @Test
-    public void testGettingTimeElapsedSinceLastChange(){
+    public void testGettingTimeElapsedSinceLastChange() {
         TimePiece timePiece = mock(TimePiece.class);
         long updateTime = 100L;
         long now = updateTime + 1L;
