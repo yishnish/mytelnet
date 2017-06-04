@@ -6,6 +6,7 @@ import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 public class UTCTimePieceTest {
 
@@ -13,6 +14,6 @@ public class UTCTimePieceTest {
     public void testTheTimeIsBasedOnUTC(){
         UTCTimePiece timePiece = new UTCTimePiece();
         long currentUTCTime = new Date().getTime(); //GMT, not UTC but close enough and avoids testing the same method used by the OUT
-        assertThat(timePiece.getTimeMillis(), equalTo(currentUTCTime));
+        assertEquals(timePiece.getTimeMillis(), currentUTCTime, 10);
     }
 }
