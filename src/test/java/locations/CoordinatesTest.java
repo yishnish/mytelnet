@@ -9,6 +9,8 @@ import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class CoordinatesTest {
 
@@ -109,5 +111,15 @@ public class CoordinatesTest {
         Coordinates end = new Coordinates(2, 2);
 
         assertThat(start.to(end), equalTo(new MoveDelta(1, 1)));
+    }
+
+    @Test
+    public void testEqualityIsBasedOnRowAndColumn() {
+        Coordinates coordinates = new Coordinates(0, 0);
+        Coordinates matchingCoordinates = new Coordinates(0, 0);
+        Coordinates differentCoordinates = new Coordinates(0, 1);
+
+        assertTrue(coordinates.equals(matchingCoordinates));
+        assertFalse(coordinates.equals(differentCoordinates));
     }
 }
